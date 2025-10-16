@@ -8,8 +8,8 @@ export default function InsightsPage() {
     <AppLayout
       user={{ name: teacherData.name, role: 'Teacher' }}
       navLinks={[
-        { href: '/teacher/dashboard', label: 'Dashboard', icon: BarChart },
-        { href: '/teacher/insights', label: 'AI Insights', icon: Lightbulb },
+        { href: '/teacher/dashboard', label: 'Dashboard', icon: 'BarChart' },
+        { href: '/teacher/insights', label: 'AI Insights', icon: 'Lightbulb' },
       ]}
     >
       <div className="space-y-6 max-w-4xl mx-auto">

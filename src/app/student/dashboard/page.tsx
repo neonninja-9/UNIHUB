@@ -28,7 +28,7 @@ export default function StudentDashboardPage() {
     <AppLayout
       user={{ name: studentData.name, role: 'Student' }}
       navLinks={[
-        { href: '/student/dashboard', label: 'Dashboard', icon: BarChart3 },
+        { href: '/student/dashboard', label: 'Dashboard', icon: 'BarChart3' },
       ]}
     >
       <div className="space-y-8">

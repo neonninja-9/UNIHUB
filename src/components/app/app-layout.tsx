@@ -18,12 +18,19 @@ import {
 import { Logo } from '@/components/logo';
 import { UserNav } from '@/components/app/user-nav';
 import { Button } from '../ui/button';
-import { LogOut } from 'lucide-react';
+import { LogOut, BarChart3, Lightbulb } from 'lucide-react';
+
+const iconMap: Record<string, React.ElementType> = {
+    BarChart3,
+    Lightbulb,
+    LogOut,
+};
+
 
 interface AppLayoutProps {
   children: ReactNode;
   user: { name: string; role: 'Student' | 'Teacher' };
-  navLinks: { href: string; label: string; icon: React.ElementType }[];
+  navLinks: { href: string; label: string; icon: string }[];
 }
 
 export function AppLayout({ children, user, navLinks }: AppLayoutProps) {
@@ -40,7 +47,9 @@ export function AppLayout({ children, user, navLinks }: AppLayoutProps) {
         </SidebarHeader>
         <SidebarContent>
           <SidebarMenu>
-            {navLinks.map((link) => (
+            {navLinks.map((link) => {
+              const Icon = iconMap[link.icon];
+              return (
               <SidebarMenuItem key={link.href}>
                 <SidebarMenuButton
                   asChild
@@ -48,12 +57,12 @@ export function AppLayout({ children, user, navLinks }: AppLayoutProps) {
                   tooltip={link.label}
                 >
                   <Link href={link.href}>
-                    <link.icon />
+                    {Icon && <Icon />}
                     <span>{link.label}</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
-            ))}
+            )})}
           </SidebarMenu>
         </SidebarContent>
         <SidebarFooter className="border-t p-2">
