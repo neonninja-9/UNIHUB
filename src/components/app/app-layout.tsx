@@ -18,12 +18,21 @@ import {
 import { Logo } from '@/components/logo';
 import { UserNav } from '@/components/app/user-nav';
 import { Button } from '../ui/button';
-import { LogOut, BarChart3, Lightbulb } from 'lucide-react';
+import { LogOut, BarChart, BarChart3, Lightbulb, Calendar, BookOpen, Clock, Users, FileText, DollarSign, Award, Home } from 'lucide-react';
 
 const iconMap: Record<string, React.ElementType> = {
+    BarChart,
     BarChart3,
     Lightbulb,
     LogOut,
+    Calendar,
+    BookOpen,
+    Clock,
+    Users,
+    FileText,
+    DollarSign,
+    Award,
+    Home,
 };
 
 

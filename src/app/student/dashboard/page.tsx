@@ -19,7 +19,7 @@ import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { studentData, scheduleData, noticeBoardData } from '@/lib/data';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
-import { BarChart3, BookOpen, Calendar, Megaphone, User } from 'lucide-react';
+import { Award, BarChart3, BookOpen, Calendar, Clock, DollarSign, FileText, Home, Megaphone, User, Users } from 'lucide-react';
 
 const userAvatar = PlaceHolderImages.find(p => p.id === 'user-avatar-1');
 
@@ -29,6 +29,14 @@ export default function StudentDashboardPage() {
       user={{ name: studentData.name, role: 'Student' }}
       navLinks={[
         { href: '/student/dashboard', label: 'Dashboard', icon: 'BarChart3' },
+        { href: '/student/dashboard', label: 'My Calendar', icon: 'Calendar' },
+        { href: '/student/dashboard', label: 'My Courses', icon: 'BookOpen' },
+        { href: '/student/dashboard', label: 'Time Table', icon: 'Clock' },
+        { href: '/student/dashboard', label: 'My Faculty', icon: 'Users' },
+        { href: '/student/dashboard', label: 'Examination', icon: 'FileText' },
+        { href: '/student/dashboard', label: 'Fee Details', icon: 'DollarSign' },
+        { href: '/student/dashboard', label: 'Scholarship', icon: 'Award' },
+        { href: '/student/dashboard', label: 'Hostel', icon: 'Home' },
       ]}
     >
       <div className="space-y-8">

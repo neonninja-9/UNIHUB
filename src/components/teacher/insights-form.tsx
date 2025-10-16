@@ -20,6 +20,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import {
   Card,
@@ -97,40 +98,71 @@ export function InsightsForm() {
 
   return (
     <Card className="shadow-lg">
-      <form ref={formRef} action={formAction}>
-        <CardHeader>
-          <CardTitle>Generate Teaching Strategies</CardTitle>
-          <CardDescription>
-            Input class details and performance data to receive AI-powered
-            recommendations.
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="space-y-2">
-                <Label htmlFor="subject">Subject</Label>
-                <Input name="subject" id="subject" defaultValue="Physics" />
+      <Form {...form}>
+        <form
+          ref={formRef}
+          action={formAction}
+          className="space-y-4"
+        >
+          <CardHeader>
+            <CardTitle>Generate Teaching Strategies</CardTitle>
+            <CardDescription>
+              Input class details and performance data to receive AI-powered
+              recommendations.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+              <FormField
+                control={form.control}
+                name="subject"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Subject</FormLabel>
+                    <FormControl>
+                      <Input placeholder="e.g. Physics" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="gradeLevel"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Grade Level</FormLabel>
+                    <FormControl>
+                      <Input placeholder="e.g. 12" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
             </div>
-             <div className="space-y-2">
-                <Label htmlFor="gradeLevel">Grade Level</Label>
-                <Input name="gradeLevel" id="gradeLevel" defaultValue="12" />
-            </div>
-          </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="classPerformanceData">Class Performance Data</Label>
-            <Textarea
+            <FormField
+              control={form.control}
               name="classPerformanceData"
-              id="classPerformanceData"
-              rows={8}
-              defaultValue={classPerformanceData}
-              placeholder="Paste student performance data here..."
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Class Performance Data</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      rows={8}
+                      placeholder="Paste student performance data here..."
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormDescription>
+                    Include metrics like scores, attendance, and general
+                    observations.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-             <FormDescription>
-              Include metrics like scores, attendance, and general observations.
-            </FormDescription>
-          </div>
-          {state.issues && (
+             {state.issues && (
              <Alert variant="destructive">
                 <AlertCircle className="h-4 w-4" />
                 <AlertTitle>Error</AlertTitle>
@@ -141,21 +173,22 @@ export function InsightsForm() {
                 </AlertDescription>
             </Alert>
           )}
-        </CardContent>
-        <CardFooter>
-          <SubmitButton />
-        </CardFooter>
-      </form>
+          </CardContent>
+          <CardFooter>
+            <SubmitButton />
+          </CardFooter>
+        </form>
+      </Form>
       {state?.strategies && (
-        <>
-            <Separator />
-            <CardContent className="pt-6">
-                <h3 className="font-headline text-xl font-semibold mb-4">Recommended Strategies</h3>
-                <div className="prose prose-sm max-w-none text-foreground">
-                    <StrategyDisplay strategies={state.strategies} />
-                </div>
-            </CardContent>
-        </>
+         <>
+         <Separator />
+         <CardContent className="pt-6">
+             <h3 className="font-headline text-xl font-semibold mb-4">Recommended Strategies</h3>
+             <div className="prose prose-sm max-w-none text-foreground">
+                 <StrategyDisplay strategies={state.strategies} />
+             </div>
+         </CardContent>
+     </>
       )}
     </Card>
   );

@@ -1,3 +1,4 @@
+"use client";
 import Link from "next/link";
 import { AppLayout } from '@/components/app/app-layout';
 import {
@@ -22,7 +23,8 @@ import {
 import { Checkbox } from "@/components/ui/checkbox";
 import { teacherData, classStudentList, uploadedFiles } from '@/lib/data';
 import { BarChart, BookOpen, FileUp, Lightbulb, Send, Users, FileIcon } from 'lucide-react';
-import { ChartContainer, Bar, XAxis, YAxis, Tooltip, Legend, CartesianGrid, BarChart as RechartsBarChart } from 'recharts';
+import { Bar, XAxis, YAxis, Tooltip, Legend, CartesianGrid, BarChart as RechartsBarChart } from 'recharts';
+import { ChartContainer } from "@/components/ui/chart";
 
 const chartData = [
     { subject: 'Math', avg: 75.8, pass: 83 },
