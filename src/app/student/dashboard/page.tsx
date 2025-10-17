@@ -1,111 +1,203 @@
-import Image from 'next/image';
-import { AppLayout } from '@/components/app/app-layout';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
-import { Badge } from '@/components/ui/badge';
-import { Progress } from '@/components/ui/progress';
-import { studentData, scheduleData, noticeBoardData } from '@/lib/data';
-import { PlaceHolderImages } from '@/lib/placeholder-images';
-import { Award, BarChart3, BookOpen, Calendar, Clock, DollarSign, FileText, Home, Megaphone, User, Users } from 'lucide-react';
+"use client";
 
-const userAvatar = PlaceHolderImages.find(p => p.id === 'user-avatar-1');
+import { useEffect, useState } from 'react';
+import { Layout } from '@/components/Layout';
+import { Card, CardContent, CardHeader } from '@/components/Card';
+
+interface Student {
+  id: number;
+  name: string;
+  email: string;
+  attendance: number;
+}
+
+interface ScheduleItem {
+  id: number;
+  time: string;
+  subject: string;
+  teacher: string;
+}
+
+interface Notice {
+  id: number;
+  title: string;
+  content: string;
+  created_at: string;
+}
+
+interface Mark {
+  id: number;
+  subject: string;
+  score: number;
+}
 
 export default function StudentDashboardPage() {
+  const [student, setStudent] = useState<Student | null>(null);
+  const [schedule, setSchedule] = useState<ScheduleItem[]>([]);
+  const [notices, setNotices] = useState<Notice[]>([]);
+  const [marks, setMarks] = useState<Mark[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Get user from localStorage
+        const userData = localStorage.getItem('user');
+        if (!userData) {
+          window.location.href = '/';
+          return;
+        }
+
+        const user = JSON.parse(userData);
+
+        // Fetch student data
+        const studentResponse = await fetch(`http://localhost:5000/api/students/${user.id}`);
+        if (studentResponse.ok) {
+          const studentData = await studentResponse.json();
+          setStudent(studentData);
+        } else {
+          // If student not found in mock data, create a mock student based on user data
+          setStudent({
+            id: user.id,
+            name: user.name,
+            email: user.email,
+            attendance: 85 // Default attendance
+          });
+        }
+
+        // Fetch schedule
+        const scheduleResponse = await fetch(`http://localhost:5000/api/students/${user.id}/schedule`);
+        if (scheduleResponse.ok) {
+          const scheduleData = await scheduleResponse.json();
+          setSchedule(scheduleData);
+        } else {
+          // If no schedule found, set empty array
+          setSchedule([]);
+        }
+
+        // Fetch notices
+        const noticesResponse = await fetch('http://localhost:5000/api/notices');
+        if (noticesResponse.ok) {
+          const noticesData = await noticesResponse.json();
+          setNotices(noticesData);
+        } else {
+          setNotices([]);
+        }
+
+        // For now, we'll use static marks data since we don't have the endpoint
+        setMarks([
+          { id: 1, subject: "Mathematics", score: 88 },
+          { id: 2, subject: "Physics", score: 95 },
+          { id: 3, subject: "Computer Science", score: 91 },
+        ]);
+
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  if (loading) {
+    return (
+      <Layout>
+        <div className="flex justify-center items-center h-64">
+          <div className="text-lg">Loading...</div>
+        </div>
+      </Layout>
+    );
+  }
+
+  if (!student) {
+    return (
+      <Layout>
+        <div className="text-center text-red-600">Failed to load student data</div>
+      </Layout>
+    );
+  }
+
+  const navLinks = [
+    { href: '/student/dashboard', label: 'Dashboard' },
+    { href: '/student/dashboard', label: 'My Calendar' },
+    { href: '/student/dashboard', label: 'My Courses' },
+    { href: '/student/dashboard', label: 'Time Table' },
+    { href: '/student/dashboard', label: 'My Faculty' },
+    { href: '/student/dashboard', label: 'Examination' },
+    { href: '/student/dashboard', label: 'Fee Details' },
+    { href: '/student/dashboard', label: 'Scholarship' },
+    { href: '/student/dashboard', label: 'Hostel' },
+  ];
+
   return (
-    <AppLayout
-      user={{ name: studentData.name, role: 'Student' }}
-      navLinks={[
-        { href: '/student/dashboard', label: 'Dashboard', icon: 'BarChart3' },
-        { href: '/student/dashboard', label: 'My Calendar', icon: 'Calendar' },
-        { href: '/student/dashboard', label: 'My Courses', icon: 'BookOpen' },
-        { href: '/student/dashboard', label: 'Time Table', icon: 'Clock' },
-        { href: '/student/dashboard', label: 'My Faculty', icon: 'Users' },
-        { href: '/student/dashboard', label: 'Examination', icon: 'FileText' },
-        { href: '/student/dashboard', label: 'Fee Details', icon: 'DollarSign' },
-        { href: '/student/dashboard', label: 'Scholarship', icon: 'Award' },
-        { href: '/student/dashboard', label: 'Hostel', icon: 'Home' },
-      ]}
+    <Layout
+      user={{ name: student.name, role: 'Student' }}
+      navLinks={navLinks}
     >
       <div className="space-y-8">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <h1 className="font-headline text-3xl font-bold tracking-tight">
-              Welcome, {studentData.name.split(' ')[0]}!
-            </h1>
-            <p className="text-muted-foreground">
-              Here is your academic overview for today.
-            </p>
-          </div>
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight">
+            Welcome, {student.name.split(' ')[0]}!
+          </h1>
+          <p className="text-gray-600">
+            Here is your academic overview for today.
+          </p>
         </div>
 
         <div className="grid gap-6 lg:grid-cols-3">
           <div className="space-y-6 lg:col-span-2">
             {/* Attendance */}
             <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">
-                  Overall Attendance
-                </CardTitle>
-                <User className="h-4 w-4 text-muted-foreground" />
+              <CardHeader>
+                <h3 className="text-lg font-medium">Overall Attendance</h3>
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">{studentData.attendance}%</div>
-                <p className="text-xs text-muted-foreground">
+                <div className="text-2xl font-bold">{student.attendance}%</div>
+                <p className="text-sm text-gray-600">
                   Keep up the great work!
                 </p>
-                <Progress value={studentData.attendance} className="mt-4 h-2" />
+                <div className="w-full bg-gray-200 rounded-full h-2 mt-4">
+                  <div
+                    className="bg-blue-600 h-2 rounded-full"
+                    style={{ width: `${student.attendance}%` }}
+                  ></div>
+                </div>
               </CardContent>
             </Card>
 
             {/* Recent Marks */}
             <Card>
               <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <BookOpen className="h-5 w-5" /> Recent Marks
-                </CardTitle>
-                <CardDescription>
+                <h3 className="text-lg font-medium">Recent Marks</h3>
+                <p className="text-sm text-gray-600">
                   Your latest scores across different subjects.
-                </CardDescription>
+                </p>
               </CardHeader>
               <CardContent>
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Subject</TableHead>
-                      <TableHead className="text-right">Score</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {studentData.marks.map((mark) => (
-                      <TableRow key={mark.subject}>
-                        <TableCell className="font-medium">
-                          {mark.subject}
-                        </TableCell>
-                        <TableCell className="text-right">
-                          <Badge
-                            variant={mark.score > 80 ? 'default' : 'secondary'}
-                            className={mark.score > 80 ? 'bg-green-500/20 text-green-700 border-green-500/30' : ''}
-                          >
+                <table className="w-full">
+                  <thead>
+                    <tr className="border-b">
+                      <th className="text-left py-2">Subject</th>
+                      <th className="text-right py-2">Score</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {marks.map((mark) => (
+                      <tr key={mark.id} className="border-b">
+                        <td className="py-2">{mark.subject}</td>
+                        <td className="text-right py-2">
+                          <span className={`px-2 py-1 rounded text-sm ${
+                            mark.score > 80 ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
+                          }`}>
                             {mark.score}
-                          </Badge>
-                        </TableCell>
-                      </TableRow>
+                          </span>
+                        </td>
+                      </tr>
                     ))}
-                  </TableBody>
-                </Table>
+                  </tbody>
+                </table>
               </CardContent>
             </Card>
           </div>
@@ -114,18 +206,16 @@ export default function StudentDashboardPage() {
              {/* Today's Schedule */}
             <Card>
               <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                    <Calendar className="h-5 w-5" /> Today's Schedule
-                </CardTitle>
+                <h3 className="text-lg font-medium">Today's Schedule</h3>
               </CardHeader>
               <CardContent>
                 <ul className="space-y-4">
-                  {scheduleData.map((item) => (
-                    <li key={item.time} className="flex items-start gap-4">
-                      <div className="text-sm font-medium text-muted-foreground w-24">{item.time}</div>
+                  {schedule.map((item) => (
+                    <li key={item.id} className="flex items-start gap-4">
+                      <div className="text-sm font-medium text-gray-600 w-24">{item.time}</div>
                       <div>
                         <p className="font-semibold">{item.subject}</p>
-                        <p className="text-xs text-muted-foreground">{item.teacher}</p>
+                        <p className="text-xs text-gray-600">{item.teacher}</p>
                       </div>
                     </li>
                   ))}
@@ -136,17 +226,17 @@ export default function StudentDashboardPage() {
             {/* Notice Board */}
             <Card>
               <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Megaphone className="h-5 w-5" /> Notice Board
-                </CardTitle>
+                <h3 className="text-lg font-medium">Notice Board</h3>
               </CardHeader>
               <CardContent>
                 <ul className="space-y-4">
-                  {noticeBoardData.map((notice) => (
+                  {notices.slice(0, 2).map((notice) => (
                     <li key={notice.id}>
                         <h4 className="font-semibold">{notice.title}</h4>
-                        <p className="text-sm text-muted-foreground">{notice.content}</p>
-                        <p className="text-xs text-gray-500 mt-1">{notice.date}</p>
+                        <p className="text-sm text-gray-600">{notice.content}</p>
+                        <p className="text-xs text-gray-500 mt-1">
+                          {new Date(notice.created_at).toLocaleDateString()}
+                        </p>
                     </li>
                   ))}
                 </ul>
@@ -155,6 +245,6 @@ export default function StudentDashboardPage() {
           </div>
         </div>
       </div>
-    </AppLayout>
+    </Layout>
   );
 }

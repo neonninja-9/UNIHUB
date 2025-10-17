@@ -1,6 +1,5 @@
 import type {Metadata} from 'next';
 import { Inter, Space_Grotesk } from 'next/font/google'
-import { Toaster } from "@/components/ui/toaster"
 import './globals.css';
 import { cn } from '@/lib/utils';
 
@@ -18,10 +17,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning={true}>
       <body className={cn("font-body antialiased", inter.variable, spaceGrotesk.variable)}>
         {children}
-        <Toaster />
       </body>
     </html>
   );
