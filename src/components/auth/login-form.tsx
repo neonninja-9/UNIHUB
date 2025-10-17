@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { motion } from "framer-motion"; // Animation library
 
 // =======================
@@ -186,6 +187,7 @@ const RightPanelContent = ({ isStudent }: { isStudent: boolean }) => {
 // Main LoginForm Component
 // =======================
 export default function LoginForm() {
+  const router = useRouter();
   const [loginType, setLoginType] = useState("student");
   const [showPassword, setShowPassword] = useState(false);
   const [username, setUsername] = useState("");
@@ -225,7 +227,12 @@ export default function LoginForm() {
     // Simulate login process
     setTimeout(() => {
       setIsLoading(false);
-      alert("Login successful!");
+      // Redirect based on login type
+      if (isStudent) {
+        router.push('/student/dashboard');
+      } else {
+        router.push('/teacher/dashboard');
+      }
     }, 2000);
   };
 
@@ -236,7 +243,7 @@ export default function LoginForm() {
   const focusRingColor = isStudent ? "focus:ring-indigo-500" : "focus:ring-teal-500";
 
   return (
-    <main className="bg-gray-900 min-h-screen flex items-center justify-center font-sans p-4">
+    <main className="min-h-screen flex items-center justify-center font-sans p-4">
       <div className="w-full max-w-5xl grid md:grid-cols-2 rounded-2xl shadow-2xl overflow-hidden">
         {/* Left Panel */}
         <div className="bg-gray-800 p-8 md:p-12 text-white order-last md:order-first">
