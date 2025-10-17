@@ -18,7 +18,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning={true}>
-      <body className={cn("font-body antialiased", inter.variable, spaceGrotesk.variable)}>
+      <body className={cn("font-body antialiased bg-gray-900", inter.variable, spaceGrotesk.variable)}>
         {children}
       </body>
     </html>
