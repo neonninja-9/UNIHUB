@@ -9,7 +9,8 @@
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
     "backend": "nodemon backend/server.js",
-    "app": "concurrently \"npm run backend\" \"npm run dev\""
+    "app": "concurrently \"npm run backend\" \"npm run dev\"",
+    "export": "next export"
   },
   "dependencies": {
     "class-variance-authority": "^0.7.1",
