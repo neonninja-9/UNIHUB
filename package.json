@@ -1,0 +1,44 @@
+{
+  "name": "unihub-simple",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -p 3000",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit",
+    "backend": "nodemon backend/server.js",
+    "app": "concurrently \"npm run backend\" \"npm run dev\"",
+    "export": "next export"
+  },
+  "dependencies": {
+    "@radix-ui/react-slot": "^1.2.3",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
+    "express": "^4.18.2",
+    "framer-motion": "^12.23.24",
+    "lucide-react": "^0.475.0",
+    "next": "^15.5.5",
+    "pg": "^8.11.3",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "tailwind-merge": "^3.0.1",
+    "tailwindcss-animate": "^1.0.7",
+    "zod": "^4.1.12"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/node": "^20",
+    "@types/pg": "^8.10.9",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "concurrently": "^9.2.1",
+    "postcss": "^8",
+    "tailwindcss": "^3.4.18",
+    "typescript": "^5"
+  }
+}
