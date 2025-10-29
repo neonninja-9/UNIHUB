@@ -59,29 +59,33 @@ export function AttendanceChart({ courses, attendance }: AttendanceChartProps) {
         </div>
 
         <div className="flex-1 space-y-4">
-          {courses.map(course => {
+          {courses.map((course, index) => {
             const courseAttendance = attendance.filter(a => a.course_id === course.id)
             const totalClasses = courseAttendance.length
             const presentClasses = courseAttendance.filter(a => a.status === 'present').length
             const percentage = totalClasses ? (presentClasses / totalClasses) * 100 : 0
-            
-            // Determine color based on percentage
-            let colorClass = 'green'
-            if (percentage < 50) colorClass = 'red'
-            else if (percentage < 75) colorClass = 'orange'
-            else if (percentage < 85) colorClass = 'yellow'
-            
+
+            // Get appropriate color classes based on percentage
+            const getColorClasses = (percentage: number) => {
+              if (percentage < 50) return { text: 'text-red-400', bg: 'bg-red-500' }
+              if (percentage < 75) return { text: 'text-orange-400', bg: 'bg-orange-500' }
+              if (percentage < 85) return { text: 'text-yellow-400', bg: 'bg-yellow-500' }
+              return { text: 'text-green-400', bg: 'bg-green-500' }
+            }
+
+            const colorClasses = getColorClasses(percentage)
+
             return (
-              <div key={course.id}>
+              <div key={index}>
                 <div className="flex justify-between text-sm mb-2">
                   <span className="text-gray-300">{course.name.toUpperCase()}</span>
-                  <span className={`text-${colorClass}-400`}>
+                  <span className={colorClasses.text}>
                     {Math.round(percentage)}%
                   </span>
                 </div>
                 <div className="w-full bg-gray-700 rounded-full h-2">
                   <div
-                    className={`bg-${colorClass}-500 rounded-full h-2`}
+                    className={`${colorClasses.bg} rounded-full h-2`}
                     style={{ width: `${percentage}%` }}
                   ></div>
                 </div>

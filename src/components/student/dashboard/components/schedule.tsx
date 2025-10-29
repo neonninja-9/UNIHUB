@@ -11,10 +11,16 @@ export function Schedule({ courses }: ScheduleProps) {
       <div className="text-sm text-gray-400 mb-4">Today</div>
       <div className="space-y-3">
         {courses.map((course, index) => {
+          // Skip if schedule is not defined or empty
+          if (!course.schedule || course.schedule.trim() === '') return null
+
           // Parse schedule string - assuming format like "Mon,Wed 09:15-10:10"
           const [days, time] = course.schedule.split(' ')
+          if (!days || !time) return null
+
           const [startTime, endTime] = time.split('-')
-          
+          if (!startTime || !endTime) return null
+
           // Get current day
           const today = new Date().toLocaleDateString('en-US', { weekday: 'short' })
           if (!days.includes(today.slice(0,3))) return null
