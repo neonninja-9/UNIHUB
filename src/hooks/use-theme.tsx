@@ -1,3 +1,5 @@
+'use client'
+
 import { useContext, createContext, useState, useEffect } from 'react'
 
 const ThemeContext = createContext<
@@ -6,21 +8,25 @@ const ThemeContext = createContext<
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [darkMode, setDarkMode] = useState(false)
+  const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
+    setMounted(true)
     const isDark = localStorage.getItem('darkMode') === 'true'
     setDarkMode(isDark)
   }, [])
 
   useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add('dark')
-      localStorage.setItem('darkMode', 'true')
-    } else {
-      document.documentElement.classList.remove('dark')
-      localStorage.setItem('darkMode', 'false')
+    if (mounted) {
+      if (darkMode) {
+        document.documentElement.classList.add('dark')
+        localStorage.setItem('darkMode', 'true')
+      } else {
+        document.documentElement.classList.remove('dark')
+        localStorage.setItem('darkMode', 'false')
+      }
     }
-  }, [darkMode])
+  }, [darkMode, mounted])
 
   return <ThemeContext.Provider value={{ darkMode, setDarkMode }}>{children}</ThemeContext.Provider>
 }

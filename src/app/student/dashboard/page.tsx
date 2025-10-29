@@ -4,16 +4,18 @@ import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { api } from '@/lib/api'
 import { Student, Course, Grade, Attendance } from '@/lib/types'
+import { Sidebar } from '@/components/student/dashboard/sidebar'
 import {
-  DashboardHeader,
   WelcomeCard,
   StatsCards,
   CourseList,
   QuickLinks,
   Deadlines,
   Schedule,
-  AttendanceChart
+  AttendanceChart,
+  NotificationBoard
 } from '@/components/student/dashboard/components'
+import { DashboardHeader } from '@/components/student/dashboard/components/header'
 
 // Loading component
 const LoadingSpinner = () => (
@@ -29,6 +31,7 @@ export default function StudentDashboard() {
   const [attendance, setAttendance] = useState<Attendance[]>([])
   const [grades, setGrades] = useState<Grade[]>([])
   const [loading, setLoading] = useState(true)
+  const [sidebarOpen, setSidebarOpen] = useState(false)
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -118,38 +121,43 @@ export default function StudentDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0A0E27] text-white">
-      <DashboardHeader student={student} />
+    <div className="min-h-screen bg-[#0A0E27] text-white flex dark:bg-[#f9fafb] dark:text-gray-900">
+      <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
-      {/* Main Content */}
-      <div className="p-6 max-w-[1600px] mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Left & Center Content */}
-          <div className="lg:col-span-2 space-y-6">
-            <WelcomeCard student={student} />
-            <StatsCards 
-              grades={grades}
-              attendance={attendance}
-              courses={courses}
-            />
-            <CourseList 
-              courses={courses}
-              attendance={attendance}
-            />
-            <AttendanceChart
-              courses={courses}
-              attendance={attendance}
-            />
-            <QuickLinks />
-          </div>
+      <div className="flex-1">
+        <DashboardHeader student={student} onMenuClick={() => setSidebarOpen(true)} sidebarOpen={sidebarOpen} />
 
-          {/* Right Sidebar */}
-          <div className="lg:col-span-1 space-y-6">
-            <Deadlines 
-              courses={courses}
-              grades={grades}
-            />
-            <Schedule courses={courses} />
+        {/* Main Content */}
+        <div className="p-6 max-w-[1600px] mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {/* Left & Center Content */}
+            <div className="lg:col-span-2 space-y-6">
+              <WelcomeCard student={student} />
+              <StatsCards
+                grades={grades}
+                attendance={attendance}
+                courses={courses}
+              />
+              <CourseList
+                courses={courses}
+                attendance={attendance}
+              />
+              <AttendanceChart
+                courses={courses}
+                attendance={attendance}
+              />
+              <QuickLinks />
+            </div>
+
+            {/* Right Sidebar */}
+            <div className="lg:col-span-1 space-y-6">
+              <Deadlines
+                courses={courses}
+                grades={grades}
+              />
+              <Schedule courses={courses} />
+              <NotificationBoard />
+            </div>
           </div>
         </div>
       </div>

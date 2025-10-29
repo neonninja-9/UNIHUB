@@ -15,9 +15,12 @@ export function CourseList({ courses, attendance }: CourseListProps) {
           // normalize id field: backend may return `id` or `course_id`
           const courseId = (course as any).id ?? (course as any).course_id ?? index
           const colors = [
-            'from-blue-500 to-blue-700',
-            'from-pink-500 to-pink-700',
-            'from-green-500 to-green-700'
+            'from-blue-500 to-blue-700 dark:from-[#60a5fa] dark:to-[#3b82f6]',
+            'from-pink-500 to-pink-700 dark:from-[#f472b6] dark:to-[#ec4899]',
+            'from-green-500 to-green-700 dark:from-[#34d399] dark:to-[#10b981]',
+            'from-orange-500 to-orange-700 dark:from-[#fbbf24] dark:to-[#f59e0b]',
+            'from-violet-500 to-violet-700 dark:from-[#a78bfa] dark:to-[#8b5cf6]',
+            'from-teal-500 to-teal-700 dark:from-[#5eead4] dark:to-[#14b8a6]'
           ]
           const colorClass = colors[index % colors.length]
           

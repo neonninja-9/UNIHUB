@@ -75,14 +75,14 @@ interface StatCardProps {
 
 function StatCard({ icon, iconBg, label, value }: StatCardProps) {
   return (
-    <div className="bg-[#1A1F3A] rounded-xl p-5">
+    <div className="bg-[#1A1F3A] dark:bg-white rounded-xl p-5 shadow-lg dark:shadow-[0_4px_12px_rgba(0,0,0,0.08)]">
       <div className="flex items-center gap-3 mb-2">
         <div className={`w-10 h-10 rounded-full ${iconBg} flex items-center justify-center`}>
           {icon}
         </div>
       </div>
-      <div className="text-gray-400 text-sm mb-1">{label}</div>
-      <div className="text-3xl font-bold">{value}</div>
+      <div className="text-gray-400 dark:text-[#6b7280] text-sm mb-1">{label}</div>
+      <div className="text-3xl font-bold text-white dark:text-[#1f2937]">{value}</div>
     </div>
   )
 }

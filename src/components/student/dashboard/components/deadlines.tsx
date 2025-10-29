@@ -8,8 +8,8 @@ interface DeadlinesProps {
 
 export function Deadlines({ courses, grades }: DeadlinesProps) {
   return (
-    <div className="bg-[#1A1F3A] rounded-xl p-6">
-      <h3 className="text-xl font-bold mb-4">Upcoming Deadlines</h3>
+    <div className="bg-[#1A1F3A] dark:bg-white rounded-xl p-6 shadow-lg dark:shadow-[0_4px_12px_rgba(0,0,0,0.08)]">
+      <h3 className="text-xl font-bold mb-4 text-white dark:text-[#1f2937]">Upcoming Deadlines</h3>
       <div className="space-y-4">
         {courses.map(course => {
           const courseGrades = grades.filter(g => g.course_id === course.id)
@@ -33,10 +33,10 @@ export function Deadlines({ courses, grades }: DeadlinesProps) {
                   )}
                 </div>
                 <div className="flex-1">
-                  <div className="font-semibold text-sm">{`Assignment ${index + 1}`}</div>
-                  <div className="text-xs text-gray-400">{course.name}</div>
+                  <div className="font-semibold text-sm text-white dark:text-[#1f2937]">{`Assignment ${index + 1}`}</div>
+                  <div className="text-xs text-gray-400 dark:text-[#6b7280]">{course.name}</div>
                   <div className={`text-xs mt-1 ${
-                    isUrgent ? 'text-red-400' : 'text-gray-300'
+                    isUrgent ? 'text-red-400 dark:text-[#ef4444]' : 'text-gray-300 dark:text-[#6b7280]'
                   }`}>
                     Due in {diffDays} {diffDays === 1 ? 'day' : 'days'}
                   </div>
