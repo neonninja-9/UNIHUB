@@ -1,7 +1,7 @@
-import type {Metadata} from 'next';
+import type { Metadata } from 'next'
 import { Inter, Space_Grotesk } from 'next/font/google'
-import './globals.css';
-import { cn } from '@/lib/utils';
+import './globals.css'
+import { cn } from '@/lib/utils'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
 const spaceGrotesk = Space_Grotesk({ subsets: ['latin'], variable: '--font-space-grotesk' })
@@ -9,18 +9,21 @@ const spaceGrotesk = Space_Grotesk({ subsets: ['latin'], variable: '--font-space
 export const metadata: Metadata = {
   title: 'UNIHUB',
   description: 'A unified hub for students and teachers.',
-};
+}
 
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: React.ReactNode
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning={true}>
-      <body className={cn("font-body antialiased bg-gray-900", inter.variable, spaceGrotesk.variable)}>
+    <html lang="en" suppressHydrationWarning>
+      <body
+        className={cn('font-body antialiased bg-gray-900', inter.variable, spaceGrotesk.variable)}
+        suppressHydrationWarning
+      >
         {children}
       </body>
     </html>
-  );
+  )
 }

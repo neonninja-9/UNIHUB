@@ -27,12 +27,14 @@ A beginner-friendly educational platform built with React, Next.js, and Express.
 ### Installation
 
 1. Clone the repository:
+
    ```bash
    git clone <repository-url>
    cd unihub-simple
    ```
 
 2. Install dependencies:
+
    ```bash
    npm install
    ```
@@ -46,15 +48,19 @@ A beginner-friendly educational platform built with React, Next.js, and Express.
    - Update the `DATABASE_URL` with your PostgreSQL connection string
 
 5. Start the backend server:
+
    ```bash
    npm run backend
    ```
+
    This will start the Express server on port 5000.
 
 6. In a new terminal, start the frontend:
+
    ```bash
    npm run dev
    ```
+
    This will start the Next.js development server on port 3000.
 
 7. Open your browser and navigate to `http://localhost:3000`
@@ -62,6 +68,7 @@ A beginner-friendly educational platform built with React, Next.js, and Express.
 ## Sample Login Credentials
 
 ### Students
+
 - Email: alex.doe@unihub.com
 - Password: password123
 
@@ -69,6 +76,7 @@ A beginner-friendly educational platform built with React, Next.js, and Express.
 - Password: password123
 
 ### Teachers
+
 - Email: e.reed@unihub.com
 - Password: password123
 
@@ -111,6 +119,24 @@ unihub-simple/
 - Frontend runs on `http://localhost:3000`
 - Backend runs on `http://localhost:5000`
 - Make sure both servers are running for full functionality
+
+## Developer tools and scripts
+
+This project includes configs for ESLint, Prettier, Husky (pre-commit) and a basic CI workflow.
+
+- Install dev dependencies:
+  ```bash
+  npm install
+  npm run prepare # sets up husky hooks
+  ```
+- Useful npm scripts:
+  - `npm run dev` - start Next.js dev server
+  - `npm run backend` - start Express backend
+  - `npm run lint` - run ESLint
+  - `npm run lint:fix` - try to auto-fix lint issues
+  - `npm run format` - run Prettier across the codebase
+  - `npm run typecheck` - run TypeScript typecheck
+  - `npm run test` - run unit tests (Vitest)
 
 ## Future Enhancements
 

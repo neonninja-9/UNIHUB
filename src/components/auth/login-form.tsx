@@ -1,13 +1,20 @@
-"use client";
+'use client'
 
-import React, { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { motion } from "framer-motion"; // Animation library
+import React, { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
+import { motion } from 'framer-motion' // Animation library
+import { api } from '@/lib/api'
 
 // =======================
 // Eye Icon Component
 // =======================
-const EyeIcon = ({ showPassword, togglePasswordVisibility }: { showPassword: boolean; togglePasswordVisibility: () => void }) => (
+const EyeIcon = ({
+  showPassword,
+  togglePasswordVisibility,
+}: {
+  showPassword: boolean
+  togglePasswordVisibility: () => void
+}) => (
   <svg
     onClick={togglePasswordVisibility}
     xmlns="http://www.w3.org/2000/svg"
@@ -35,7 +42,7 @@ const EyeIcon = ({ showPassword, togglePasswordVisibility }: { showPassword: boo
       </>
     )}
   </svg>
-);
+)
 
 // =======================
 // Student Illustration
@@ -44,18 +51,12 @@ const StudentIllustration = () => (
   <motion.svg
     initial={{ y: 0 }}
     animate={{ y: [0, -10, 0] }}
-    transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+    transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
     viewBox="0 0 320 220"
     xmlns="http://www.w3.org/2000/svg"
     className="w-full h-auto max-w-sm drop-shadow-lg"
   >
-    <g
-      stroke="#FFFFFF"
-      fill="none"
-      strokeWidth="3"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
+    <g stroke="#FFFFFF" fill="none" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
       {/* Plant */}
       <g transform="translate(270, 155)">
         <path
@@ -69,10 +70,7 @@ const StudentIllustration = () => (
 
       {/* Person sitting */}
       <g transform="translate(180, 25)">
-        <path
-          d="M 30 50 L 50 70 L 80 60 L 60 40 Z"
-          fill="rgba(255,255,255,0.1)"
-        />
+        <path d="M 30 50 L 50 70 L 80 60 L 60 40 Z" fill="rgba(255,255,255,0.1)" />
         <circle cx="60" cy="20" r="12" strokeWidth="2" />
         <path d="M 60 32 C 50 60, 70 80, 95 85" />
         <path d="M 95 85 C 75 90, 60 75, 50 55" />
@@ -90,20 +88,13 @@ const StudentIllustration = () => (
       </g>
 
       {/* Document stack */}
-      <rect
-        x="20"
-        y="100"
-        width="280"
-        height="100"
-        rx="10"
-        fill="rgba(255,255,255,0.1)"
-      />
+      <rect x="20" y="100" width="280" height="100" rx="10" fill="rgba(255,255,255,0.1)" />
       <path d="M 40 120 H 260" />
       <path d="M 40 140 H 260" />
       <path d="M 40 160 H 200" />
     </g>
   </motion.svg>
-);
+)
 
 // =======================
 // Faculty Illustration
@@ -112,7 +103,7 @@ const FacultyIllustration = () => (
   <motion.svg
     initial={{ y: 0 }}
     animate={{ y: [0, -10, 0] }}
-    transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+    transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
     viewBox="0 0 200 200"
     xmlns="http://www.w3.org/2000/svg"
     className="w-full h-auto max-w-sm drop-shadow-lg"
@@ -124,14 +115,7 @@ const FacultyIllustration = () => (
       opacity="0.1"
     />
     <g transform="translate(130 90) scale(0.5)">
-      <circle
-        cx="20"
-        cy="15"
-        r="10"
-        fill="none"
-        stroke="#FFFFFF"
-        strokeWidth="3"
-      />
+      <circle cx="20" cy="15" r="10" fill="none" stroke="#FFFFFF" strokeWidth="3" />
       <path d="M 20 25 V 80" fill="none" stroke="#FFFFFF" strokeWidth="3" />
       <path d="M 5 80 H 35" fill="none" stroke="#FFFFFF" strokeWidth="3" />
       <path d="M 20 45 L -10 35" fill="none" stroke="#FFFFFF" strokeWidth="3" />
@@ -157,90 +141,104 @@ const FacultyIllustration = () => (
     <path d="M 40 125 H 120" stroke="#FFFFFF" strokeWidth="2" strokeDasharray="3 3" />
     <path d="M 40 105 H 120" stroke="#FFFFFF" strokeWidth="2" strokeDasharray="3 3" />
   </motion.svg>
-);
+)
 
 // =======================
 // Right Panel Content
 // =======================
 const RightPanelContent = ({ isStudent }: { isStudent: boolean }) => {
-  const welcomeText = isStudent
-    ? "Welcome to Student Portal"
-    : "Welcome to Faculty Portal";
-  const Illustration = isStudent ? StudentIllustration : FacultyIllustration;
+  const welcomeText = isStudent ? 'Welcome to Student Portal' : 'Welcome to Faculty Portal'
+  const Illustration = isStudent ? StudentIllustration : FacultyIllustration
 
   return (
     <div className="flex flex-col items-center">
       <div className="mb-8">
         <Illustration />
       </div>
-      <h2 className="text-4xl md:text-5xl font-extrabold mb-3 leading-tight">
-        {welcomeText}
-      </h2>
-      <p className="text-indigo-100 opacity-80">
-        Login to access your account
-      </p>
+      <h2 className="text-4xl md:text-5xl font-extrabold mb-3 leading-tight">{welcomeText}</h2>
+      <p className="text-indigo-100 opacity-80">Login to access your account</p>
     </div>
-  );
-};
+  )
+}
 
 // =======================
 // Main LoginForm Component
 // =======================
 export default function LoginForm() {
-  const router = useRouter();
-  const [loginType, setLoginType] = useState("student");
-  const [showPassword, setShowPassword] = useState(false);
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [errors, setErrors] = useState<{ [key: string]: string }>({});
-  const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter()
+  const [loginType, setLoginType] = useState('student')
+  const [showPassword, setShowPassword] = useState(false)
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [errors, setErrors] = useState<{ [key: string]: string }>({})
+  const [isLoading, setIsLoading] = useState(false)
 
   const toggleLoginType = (type: string) => {
     if (loginType !== type) {
-      setLoginType(type);
+      setLoginType(type)
     }
-  };
+  }
 
   const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
+    setShowPassword(!showPassword)
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setErrors({});
+    e.preventDefault()
+    setErrors({})
 
     // Basic validation
-    const newErrors: { [key: string]: string } = {};
+    const newErrors: { [key: string]: string } = {}
     if (!username.trim()) {
-      newErrors.username = "Username is required";
+      newErrors.username = 'Username is required'
     }
     if (!password.trim()) {
-      newErrors.password = "Password is required";
+      newErrors.password = 'Password is required'
     }
 
     if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors);
-      return;
+      setErrors(newErrors)
+      return
     }
 
-    setIsLoading(true);
-    // Simulate login process
-    setTimeout(() => {
-      setIsLoading(false);
-      // Redirect based on login type
-      if (isStudent) {
-        router.push('/student/dashboard');
+    setIsLoading(true)
+    try {
+      const role = loginType === 'student' ? 'student' : 'faculty'
+      const response = await api.login(username, password, role)
+      
+      if (response.success) {
+        // Save user data in localStorage or state management
+        // store user and token (if provided) so subsequent API calls include auth
+        if (response.token) {
+          try {
+            localStorage.setItem('token', response.token)
+          } catch (e) {
+            console.warn('Could not save token to localStorage', e)
+          }
+        }
+        localStorage.setItem('user', JSON.stringify(response.user))
+        
+        // Redirect based on role
+        if (role === 'student') {
+          router.push('/student/dashboard')
+        } else {
+          router.push('/teacher/dashboard')
+        }
       } else {
-        router.push('/teacher/dashboard');
+        setErrors({ auth: 'Invalid credentials' })
       }
-    }, 2000);
-  };
+    } catch (error) {
+      setErrors({ auth: 'Login failed. Please try again.' })
+    } finally {
+      setIsLoading(false)
+    }
+  }
 
-  const isStudent = loginType === "student";
-  const primaryColor = isStudent ? "bg-indigo-600" : "bg-teal-600";
-  const hoverColor = isStudent ? "hover:bg-indigo-700" : "hover:bg-teal-700";
-  const welcomeBgClass = isStudent ? "bg-indigo-500" : "bg-teal-500";
-  const focusRingColor = isStudent ? "focus:ring-indigo-500" : "focus:ring-teal-500";
+  const isStudent = loginType === 'student'
+  const primaryColor = isStudent ? 'bg-indigo-600' : 'bg-teal-600'
+  const hoverColor = isStudent ? 'hover:bg-indigo-700' : 'hover:bg-teal-700'
+  const welcomeBgClass = isStudent ? 'bg-indigo-500' : 'bg-teal-500'
+  const focusRingColor = isStudent ? 'focus:ring-indigo-500' : 'focus:ring-teal-500'
 
   return (
     <main className="min-h-screen flex items-center justify-center font-sans p-4">
@@ -255,21 +253,17 @@ export default function LoginForm() {
           {/* Toggle */}
           <div className="flex bg-gray-700 rounded-lg p-1 mb-6">
             <button
-              onClick={() => toggleLoginType("student")}
+              onClick={() => toggleLoginType('student')}
               className={`w-1/2 p-2 rounded-md text-sm font-medium transition-colors duration-300 ${
-                isStudent
-                  ? "bg-indigo-600"
-                  : "bg-transparent text-gray-300 hover:bg-gray-600"
+                isStudent ? 'bg-indigo-600' : 'bg-transparent text-gray-300 hover:bg-gray-600'
               }`}
             >
               Student Login
             </button>
             <button
-              onClick={() => toggleLoginType("faculty")}
+              onClick={() => toggleLoginType('faculty')}
               className={`w-1/2 p-2 rounded-md text-sm font-medium transition-colors duration-300 ${
-                !isStudent
-                  ? "bg-teal-600"
-                  : "bg-transparent text-gray-300 hover:bg-gray-600"
+                !isStudent ? 'bg-teal-600' : 'bg-transparent text-gray-300 hover:bg-gray-600'
               }`}
             >
               Faculty Login
@@ -278,10 +272,7 @@ export default function LoginForm() {
 
           <form onSubmit={handleSubmit}>
             <div className="mb-4">
-              <label
-                className="block text-gray-400 text-sm mb-2"
-                htmlFor="username"
-              >
+              <label className="block text-gray-400 text-sm mb-2" htmlFor="username">
                 Username
               </label>
               <input
@@ -290,29 +281,24 @@ export default function LoginForm() {
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 className={`w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 ${focusRingColor} transition-all ${
-                  errors.username ? "border-red-500" : ""
+                  errors.username ? 'border-red-500' : ''
                 }`}
                 placeholder="Enter your username"
               />
-              {errors.username && (
-                <p className="text-red-500 text-sm mt-1">{errors.username}</p>
-              )}
+              {errors.username && <p className="text-red-500 text-sm mt-1">{errors.username}</p>}
             </div>
 
             <div className="mb-4 relative">
-              <label
-                className="block text-gray-400 text-sm mb-2"
-                htmlFor="password"
-              >
+              <label className="block text-gray-400 text-sm mb-2" htmlFor="password">
                 Password
               </label>
               <input
                 id="password"
-                type={showPassword ? "text" : "password"}
+                type={showPassword ? 'text' : 'password'}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className={`w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 ${focusRingColor} transition-all ${
-                  errors.password ? "border-red-500" : ""
+                  errors.password ? 'border-red-500' : ''
                 }`}
                 placeholder="Enter your password"
               />
@@ -320,9 +306,7 @@ export default function LoginForm() {
                 showPassword={showPassword}
                 togglePasswordVisibility={togglePasswordVisibility}
               />
-              {errors.password && (
-                <p className="text-red-500 text-sm mt-1">{errors.password}</p>
-              )}
+              {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password}</p>}
             </div>
 
             <div className="text-right mb-6">
@@ -331,20 +315,26 @@ export default function LoginForm() {
               </a>
             </div>
 
+            {errors.auth && (
+              <div className="mb-4 p-3 rounded bg-red-500/10 border border-red-500 text-red-500">
+                {errors.auth}
+              </div>
+            )}
+            
             <button
               type="submit"
               disabled={isLoading}
               className={`w-full py-3 rounded-lg text-white font-semibold transition-all duration-300 ${primaryColor} ${hoverColor} focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white ${
-                isLoading ? "opacity-50 cursor-not-allowed" : ""
+                isLoading ? 'opacity-50 cursor-not-allowed' : ''
               }`}
             >
-              {isLoading ? "Logging in..." : "Login"}
+              {isLoading ? 'Logging in...' : 'Login'}
             </button>
           </form>
 
           <div className="mt-8 text-center text-sm">
             <p className="text-gray-400">
-              Don't have an account?{" "}
+              Don't have an account?{' '}
               <a href="#" className="font-medium text-indigo-400 hover:underline">
                 Sign up
               </a>
@@ -362,5 +352,5 @@ export default function LoginForm() {
         </div>
       </div>
     </main>
-  );
+  )
 }

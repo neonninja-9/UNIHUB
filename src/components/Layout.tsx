@@ -1,17 +1,17 @@
-import React from 'react';
-import Link from 'next/link';
+import React from 'react'
+import Link from 'next/link'
 
 interface LayoutProps {
-  children: React.ReactNode;
+  children: React.ReactNode
   user?: {
-    name: string;
-    role: string;
-  };
+    name: string
+    role: string
+  }
   navLinks?: Array<{
-    href: string;
-    label: string;
-    icon?: string;
-  }>;
+    href: string
+    label: string
+    icon?: string
+  }>
 }
 
 export const Layout: React.FC<LayoutProps> = ({ children, user, navLinks = [] }) => {
@@ -60,10 +60,8 @@ export const Layout: React.FC<LayoutProps> = ({ children, user, navLinks = [] })
         )}
 
         {/* Main Content */}
-        <main className={`flex-1 ${navLinks.length > 0 ? 'p-8' : 'p-4'}`}>
-          {children}
-        </main>
+        <main className={`flex-1 ${navLinks.length > 0 ? 'p-8' : 'p-4'}`}>{children}</main>
       </div>
     </div>
-  );
-};
+  )
+}
