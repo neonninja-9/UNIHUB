@@ -9,6 +9,7 @@ import {
   Users,
   X,
 } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 
 export function Sidebar({
   isOpen,
@@ -17,6 +18,7 @@ export function Sidebar({
   isOpen: boolean
   setIsOpen: (value: boolean) => void
 }) {
+  const router = useRouter();
   const navItems = [
     { icon: LayoutDashboard, label: 'Dashboard', active: true },
     { icon: BookOpen, label: 'My Courses' },
@@ -77,13 +79,16 @@ export function Sidebar({
           {/* Bottom Logout */}
           <ul>
             <li>
-              <a
-                href="#"
-                className="flex items-center gap-3 p-3 rounded-lg font-medium text-red-600 dark:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/50 transition-colors"
+              <button
+                onClick={() => {
+                  localStorage.clear();
+                  router.push('/');
+                }}
+                className="flex items-center gap-3 w-full p-3 rounded-lg font-medium text-red-600 dark:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/50 transition-colors"
               >
                 <LogOut className="w-5 h-5" />
                 <span>Logout</span>
-              </a>
+              </button>
             </li>
           </ul>
         </nav>

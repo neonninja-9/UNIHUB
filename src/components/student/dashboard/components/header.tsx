@@ -9,7 +9,15 @@ interface HeaderProps {
 }
 
 export function DashboardHeader({ student, onMenuClick, sidebarOpen }: HeaderProps) {
-  const { darkMode, setDarkMode } = useTheme()
+  let darkMode = false;
+  let setDarkMode: ((b: boolean) => void) | undefined = undefined;
+  try {
+    const theme = useTheme();
+    darkMode = theme.darkMode;
+    setDarkMode = theme.setDarkMode;
+  } catch (e) {
+    // fallback: use false
+  }
 
   return (
     <header className="bg-[#1A1F3A] border-b border-gray-800 dark:bg-white dark:border-gray-200 shadow-lg dark:shadow-[0_4px_12px_rgba(0,0,0,0.08)]">
@@ -42,8 +50,11 @@ export function DashboardHeader({ student, onMenuClick, sidebarOpen }: HeaderPro
 
         <div className="flex items-center gap-4">
           <button
-            onClick={() => setDarkMode(!darkMode)}
+            onClick={() => setDarkMode?.(!darkMode)}
             className="p-2 hover:bg-gray-800 rounded-lg dark:hover:bg-gray-200"
+            aria-label="Toggle dark mode"
+            disabled={!setDarkMode}
+            title={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
           >
             {darkMode ? <Sun className="w-5 h-5 text-gray-400 dark:text-gray-600" /> : <Moon className="w-5 h-5 text-gray-400 dark:text-gray-600" />}
           </button>

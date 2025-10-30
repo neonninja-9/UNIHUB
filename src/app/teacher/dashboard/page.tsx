@@ -10,6 +10,7 @@ import { StatCard } from '@/components/teacher/dashboard/stat-card'
 import { AssignmentsWidget } from '@/components/teacher/dashboard/assignments-widget'
 import { AILessonPlanner } from '@/components/teacher/dashboard/ai-lesson-planner'
 import { UpcomingEventsWidget } from '@/components/teacher/dashboard/upcoming-events-widget'
+import { AttendanceWidget } from '@/components/teacher/dashboard/attendance-widget';
 
 function Dashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
@@ -27,23 +28,7 @@ function Dashboard() {
             <h1 className="text-3xl font-bold text-gray-800 dark:text-gray-100 mb-6">
               Welcome back, {mockTeacher.name.split(' ')[1]}!
             </h1>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-              <StatCard
-                icon={BookOpen}
-                label="Active Courses"
-                value={mockCourses.length}
-                color="blue"
-              />
-              <StatCard icon={Users} label="Total Students" value={totalStudents} color="green" />
-              <StatCard
-                icon={FileSignature}
-                label="Submissions to Grade"
-                value={mockAssignments.filter((a) => a.submitted > 0).length}
-                color="yellow"
-              />
-            </div>
-
+            <AttendanceWidget />
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               <AssignmentsWidget assignments={mockAssignments} />
 

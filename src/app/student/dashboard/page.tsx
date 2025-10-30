@@ -2,8 +2,8 @@
 
 import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { api } from '@/lib/api'
-import { Student, Course, Grade, Attendance } from '@/lib/types'
+import { mockStudent, mockStudentCourses, mockRecentGrades } from '@/lib/student-mock-data'
+import { Attendance } from '@/lib/types'
 import { Sidebar } from '@/components/student/dashboard/sidebar'
 import {
   WelcomeCard,
@@ -26,78 +26,113 @@ const LoadingSpinner = () => (
 
 export default function StudentDashboard() {
   const router = useRouter()
-  const [student, setStudent] = useState<Student | null>(null)
-  const [courses, setCourses] = useState<Course[]>([])
+  const [student, setStudent] = useState<any>(null)
+  const [courses, setCourses] = useState<any[]>([])
   const [attendance, setAttendance] = useState<Attendance[]>([])
-  const [grades, setGrades] = useState<Grade[]>([])
+  const [grades, setGrades] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
   useEffect(() => {
-    const checkAuth = async () => {
-      const storedUser = localStorage.getItem('user')
-      if (!storedUser) {
-        console.log('No user data found in localStorage')
-        router.push('/')
-        return null
+    // Instead of fetching from API, use mock data
+    setStudent({
+      id: 1,
+      ...mockStudent,
+      roll_number: 'S101',
+      class_section: 'A',
+      phone: '1234567890',
+      address: '123 Main St',
+      parent_name: 'John Thompson',
+      parent_phone: '555-1234',
+      email: 'alex.thompson@student.unihub.com',
+    })
+    setCourses(
+      mockStudentCourses.map((c, i) => ({
+        id: c.id,
+        code: c.code,
+        name: c.title,
+        teacher: c.teacher,
+        schedule: 'Mon,Wed 09:15-10:10',
+        classroom: 'B201',
+        credits: 3,
+        description: '',
+        faculty_id: 2,
+        created_at: '',
+        updated_at: ''
+      }))
+    )
+    setGrades([
+      {
+        id: 1,
+        student_id: 1,
+        course_id: 1,
+        assignment_id: 1,
+        marks_obtained: 88,
+        feedback: 'Well done',
+        due_date: '2025-11-02',
+        title: 'Lab Report 4',
+        total_marks: 100,
+        created_at: '',
+        updated_at: ''
+      },
+      {
+        id: 2,
+        student_id: 1,
+        course_id: 2,
+        assignment_id: 2,
+        marks_obtained: 79,
+        feedback: 'Good',
+        due_date: '2025-11-06',
+        title: 'Midterm Exam',
+        total_marks: 100,
+        created_at: '',
+        updated_at: ''
+      },
+      {
+        id: 3,
+        student_id: 1,
+        course_id: 3,
+        assignment_id: 3,
+        marks_obtained: 93,
+        feedback: 'Excellent',
+        due_date: '2025-11-12',
+        title: 'Gatsby Essay Outline',
+        total_marks: 100,
+        created_at: '',
+        updated_at: ''
       }
-
-      try {
-        return JSON.parse(storedUser)
-      } catch (e) {
-        console.error('Invalid user data in localStorage')
-        localStorage.removeItem('user')
-        router.push('/')
-        return null
-      }
-    }
-
-    const fetchData = async () => {
-      try {
-        const user = await checkAuth()
-        if (!user) return
-
-        console.log('Stored user:', user)
-
-        // Fetch student details
-        const studentRes = await api.getStudent(user.id)
-        // API may return either a wrapped { success, data } object or the raw student object.
-        const studentData = (studentRes && (studentRes as any).data) ? (studentRes as any).data : studentRes
-        if (!studentData) {
-          throw new Error('No student data returned')
-        }
-        setStudent(studentData as Student)
-
-        // Fetch courses and grades in parallel
-        const [courseRes, gradesRes] = await Promise.all([
-          api.getCourses(),
-          api.getStudentResults(user.id)
-        ])
-
-  const coursesData = ((courseRes && (courseRes as any).data) ? (courseRes as any).data : courseRes) as Course[] || []
-  setCourses(coursesData as Course[])
-  const gradesData = (gradesRes && (gradesRes as any).data) ? (gradesRes as any).data : gradesRes || []
-  setGrades(gradesData as Grade[])
-
-        // Fetch attendance for each course
-        const attendancePromises = coursesData.map(course =>
-          api.getStudentAttendance(user.id, course.id)
-        )
-
-  const attendanceResults = await Promise.all(attendancePromises)
-  // each attendance result may be raw array or wrapped
-  const allAttendance = attendanceResults.flatMap((res: any) => (res && res.data) ? res.data : res || [])
-  setAttendance(allAttendance as Attendance[])
-      } catch (error) {
-        console.error('Error fetching student data:', error)
-        localStorage.removeItem('user')
-        router.push('/')
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    fetchData()
+    ])
+    setAttendance([
+      // Mock attendance for courses
+      ...Array(12).fill(0).map((_, i) => ({
+        id: i + 1,
+        student_id: 1,
+        course_id: 1,
+        date: `2025-10-${(i + 1).toString().padStart(2, '0')}`,
+        status: i % 4 === 0 ? 'absent' : 'present',
+        created_at: '',
+        updated_at: ''
+      })),
+      ...Array(10).fill(0).map((_, i) => ({
+        id: 100 + i,
+        student_id: 1,
+        course_id: 2,
+        date: `2025-10-${(i + 1).toString().padStart(2, '0')}`,
+        status: i % 5 === 0 ? 'absent' : 'present',
+        created_at: '',
+        updated_at: ''
+      })),
+      ...Array(9).fill(0).map((_, i) => ({
+        id: 200 + i,
+        student_id: 1,
+        course_id: 3,
+        date: `2025-10-${(i + 1).toString().padStart(2, '0')}`,
+        status: i % 6 === 0 ? 'absent' : 'present',
+        created_at: '',
+        updated_at: ''
+      })),
+    ])
+    setLoading(false)
   }, [router])
 
   if (loading) {
@@ -121,17 +156,15 @@ export default function StudentDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0A0E27] text-white flex dark:bg-[#f9fafb] dark:text-gray-900">
+    <div className="min-h-screen bg-[#0A0E27] text-white flex-col flex dark:bg-[#f9fafb] dark:text-gray-900 transition-colors duration-300">
       <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
-
-      <div className="flex-1">
+      <div className="flex-1 w-full">
         <DashboardHeader student={student} onMenuClick={() => setSidebarOpen(true)} sidebarOpen={sidebarOpen} />
-
-        {/* Main Content */}
-        <div className="p-6 max-w-[1600px] mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Responsive Main Content */}
+        <div className="p-2 sm:p-4 md:p-6 max-w-full md:max-w-[1600px] mx-auto transition-all duration-300">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
             {/* Left & Center Content */}
-            <div className="lg:col-span-2 space-y-6">
+            <div className="sm:col-span-2 space-y-4 md:space-y-6">
               <WelcomeCard student={student} />
               <StatsCards
                 grades={grades}
@@ -141,16 +174,16 @@ export default function StudentDashboard() {
               <CourseList
                 courses={courses}
                 attendance={attendance}
+                className="cursor-pointer hover:scale-105 transition-transform duration-300"
               />
               <AttendanceChart
                 courses={courses}
                 attendance={attendance}
               />
-              <QuickLinks />
+              <QuickLinks className="cursor-pointer hover:scale-105 transition-transform duration-200" />
             </div>
-
-            {/* Right Sidebar */}
-            <div className="lg:col-span-1 space-y-6">
+            {/* Right Sidebar Widgets */}
+            <div className="space-y-4 md:space-y-6">
               <Deadlines
                 courses={courses}
                 grades={grades}
