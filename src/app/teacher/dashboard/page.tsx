@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import React, { useState } from 'react'
 import { BookOpen, Users, FileSignature } from 'lucide-react'
@@ -11,11 +11,13 @@ import { AssignmentsWidget } from '@/components/teacher/dashboard/assignments-wi
 import { AILessonPlanner } from '@/components/teacher/dashboard/ai-lesson-planner'
 import { UpcomingEventsWidget } from '@/components/teacher/dashboard/upcoming-events-widget'
 import { AttendanceWidget } from '@/components/teacher/dashboard/attendance-widget';
-import DigiLockerWidget from '@/components/DigiLockerWidget';
 
 function Dashboard() {
-  const [sidebarOpen, setSidebarOpen] = useState(false)
-  const totalStudents = mockCourses.reduce((sum, course) => sum + course.students, 0)
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const totalStudents = mockCourses.reduce(
+    (sum, course) => sum + course.students,
+    0,
+  );
 
   return (
     <div className="flex h-screen bg-gray-100 dark:bg-gray-950 text-gray-900 dark:text-gray-100">
@@ -27,7 +29,7 @@ function Dashboard() {
         <main className="flex-1 overflow-y-auto p-4 md:p-8">
           <div className="max-w-7xl mx-auto">
             <h1 className="text-3xl font-bold text-gray-800 dark:text-gray-100 mb-6">
-              Welcome back, {mockTeacher.name.split(' ')[1]}!
+              Welcome back, {mockTeacher.name.split(" ")[1]}!
             </h1>
             <AttendanceWidget />
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -43,7 +45,7 @@ function Dashboard() {
         </main>
       </div>
     </div>
-  )
+  );
 }
 
 export default function App() {
@@ -51,5 +53,5 @@ export default function App() {
     <ThemeProvider>
       <Dashboard />
     </ThemeProvider>
-  )
+  );
 }

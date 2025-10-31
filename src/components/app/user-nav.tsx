@@ -1,5 +1,5 @@
-import Image from 'next/image'
-import Link from 'next/link'
+import Image from "next/image";
+import Link from "next/link";
 
 import {
   DropdownMenu,
@@ -9,19 +9,19 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
-import { Button } from '@/components/ui/button'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { PlaceHolderImages } from '@/lib/placeholder-images'
-import { LogOut, User, Settings } from 'lucide-react'
+} from "@/components/ui/dropdown-menu";
+import { Button } from "@/components/ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { PlaceHolderImages } from "@/lib/placeholder-images";
+import { LogOut, User, Settings } from "lucide-react";
 
 interface UserNavProps {
-  name: string
-  role: string
+  name: string;
+  role: string;
 }
 
 export function UserNav({ name, role }: UserNavProps) {
-  const userAvatar = PlaceHolderImages.find((p) => p.id === 'user-avatar-1')
+  const userAvatar = PlaceHolderImages.find((p) => p.id === "user-avatar-1");
 
   return (
     <DropdownMenu>
@@ -66,5 +66,5 @@ export function UserNav({ name, role }: UserNavProps) {
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
-  )
+  );
 }

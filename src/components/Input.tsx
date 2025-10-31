@@ -1,28 +1,28 @@
-import React from 'react'
+import React from "react";
 
 interface InputProps {
-  type?: string
-  placeholder?: string
-  value?: string
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
-  className?: string
-  required?: boolean
-  name?: string
-  id?: string
+  type?: string;
+  placeholder?: string;
+  value?: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  className?: string;
+  required?: boolean;
+  name?: string;
+  id?: string;
 }
 
 export const Input: React.FC<InputProps> = ({
-  type = 'text',
+  type = "text",
   placeholder,
   value,
   onChange,
-  className = '',
+  className = "",
   required = false,
   name,
   id,
 }) => {
   const baseClasses =
-    'w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500'
+    "w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500";
 
   return (
     <input
@@ -35,5 +35,5 @@ export const Input: React.FC<InputProps> = ({
       name={name}
       id={id}
     />
-  )
-}
+  );
+};

@@ -1,8 +1,8 @@
-'use client'
+"use client";
 
-import React, { type ReactNode } from 'react'
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import React, { type ReactNode } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import {
   SidebarProvider,
   Sidebar,
@@ -14,10 +14,10 @@ import {
   SidebarInset,
   SidebarTrigger,
   SidebarFooter,
-} from '@/components/ui/sidebar'
-import { Logo } from '@/components/logo'
-import { UserNav } from '@/components/app/user-nav'
-import { Button } from '../ui/button'
+} from "@/components/ui/sidebar";
+import { Logo } from "@/components/logo";
+import { UserNav } from "@/components/app/user-nav";
+import { Button } from "../ui/button";
 import {
   LogOut,
   BarChart,
@@ -31,7 +31,7 @@ import {
   DollarSign,
   Award,
   Home,
-} from 'lucide-react'
+} from "lucide-react";
 
 const iconMap: Record<string, React.ElementType> = {
   BarChart,
@@ -46,16 +46,16 @@ const iconMap: Record<string, React.ElementType> = {
   DollarSign,
   Award,
   Home,
-}
+};
 
 interface AppLayoutProps {
-  children: ReactNode
-  user: { name: string; role: 'Student' | 'Teacher' }
-  navLinks: { href: string; label: string; icon: string }[]
+  children: ReactNode;
+  user: { name: string; role: "Student" | "Teacher" };
+  navLinks: { href: string; label: string; icon: string }[];
 }
 
 export function AppLayout({ children, user, navLinks }: AppLayoutProps) {
-  const pathname = usePathname()
+  const pathname = usePathname();
 
   return (
     <SidebarProvider>
@@ -69,17 +69,21 @@ export function AppLayout({ children, user, navLinks }: AppLayoutProps) {
         <SidebarContent>
           <SidebarMenu>
             {navLinks.map((link) => {
-              const Icon = iconMap[link.icon]
+              const Icon = iconMap[link.icon];
               return (
                 <SidebarMenuItem key={link.href}>
-                  <SidebarMenuButton asChild isActive={pathname === link.href} tooltip={link.label}>
+                  <SidebarMenuButton
+                    asChild
+                    isActive={pathname === link.href}
+                    tooltip={link.label}
+                  >
                     <Link href={link.href}>
                       {Icon && <Icon />}
                       <span>{link.label}</span>
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
-              )
+              );
             })}
           </SidebarMenu>
         </SidebarContent>
@@ -101,5 +105,5 @@ export function AppLayout({ children, user, navLinks }: AppLayoutProps) {
         <main>{children}</main>
       </SidebarInset>
     </SidebarProvider>
-  )
+  );
 }

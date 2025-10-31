@@ -1,19 +1,16 @@
-# TODO: Integrate DigiLockerWidget into Dashboards
-
-- [x] Modify Digilocker/DigiLocker.tsx:
-  - Add TypeScript interface for props: `interface DigiLockerWidgetProps { userType: 'student' | 'teacher'; }`
-  - Update component to accept props, adjust title based on userType ("My DigiLocker" for student, "Teacher DigiLocker" for teacher), and style as a widget (remove min-h-screen, add card classes like p-4, shadow-md, rounded-xl, make content compact).
-  - Rename export to DigiLockerWidget for clarity.
-
-- [x] Update src/app/student/dashboard/page.tsx:
-  - Import DigiLockerWidget from the Digilocker directory.
-  - Add DigiLockerWidget to the right sidebar grid section with userType="student".
-
-- [x] Update src/app/teacher/dashboard/page.tsx:
-  - Import DigiLockerWidget from the Digilocker directory.
-  - Add DigiLockerWidget to the col-span-1 grid section with userType="teacher".
-
-- [x] Followup steps:
-  - Verify the widget renders correctly in both dashboards.
-  - Test responsiveness and styling consistency.
-  - Run the app to ensure no errors.
+- [x] Create mock data for John Smith in database.sql
+- [x] Add enrollments for John Smith
+- [x] Add attendance records for John Smith
+- [x] Add exam results for John Smith
+- [x] Calculate and add CGPA data
+- [x] Create notification-board.tsx component file
+- [x] Update index.ts to export NotificationBoard
+- [x] Update page.tsx to import and add NotificationBoard to the right sidebar
+- [x] Apply light mode styling to all dashboard components
+- [x] Apply custom light mode styling to attendance card
+- [x] Fix theme toggle switching between light and dark modes
+- [x] Add hamburger toggle facility for all devices
+- [x] Make sidebar open only when toggle is clicked
+- [x] Hide UNIHUB heading in header when sidebar is open
+- [x] Make dark mode toggle workable
+- [x] Create light mode version

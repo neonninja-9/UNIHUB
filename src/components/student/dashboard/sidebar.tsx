@@ -1,15 +1,27 @@
-'use client'
-import React from 'react'
-import { LayoutDashboard, Book, Calendar, BarChart2, Settings, Menu, X, LogOut } from 'lucide-react'
-import { useRouter } from 'next/navigation'
+"use client";
+import React from "react";
+import {
+  LayoutDashboard,
+  Book,
+  Calendar,
+  BarChart2,
+  Settings,
+  Menu,
+  X,
+  LogOut,
+  FileText,
+} from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useTheme } from "@/hooks/use-theme";
 
 interface SidebarProps {
-  isOpen: boolean
-  onClose: () => void
+  isOpen: boolean;
+  onClose: () => void;
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
   const router = useRouter();
+  const { darkMode, setDarkMode } = useTheme();
   return (
     <>
       {/* Overlay for all devices */}
@@ -21,11 +33,13 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
       )}
 
       <div
-        className={`fixed inset-y-0 left-0 z-30 w-64 bg-[#1A1F3A] border-r border-gray-800 shadow-lg transform ${isOpen ? 'translate-x-0' : '-translate-x-full'} transition-transform duration-300 ease-in-out dark:bg-[#11172a] dark:border-gray-800 flex flex-col h-full`}
+        className={`fixed inset-y-0 left-0 z-30 w-64 bg-[#1A1F3A] border-r border-gray-800 shadow-lg transform ${isOpen ? "translate-x-0" : "-translate-x-full"} transition-transform duration-300 ease-in-out dark:bg-[#11172a] dark:border-gray-800 flex flex-col h-full`}
       >
         <div className="p-5 border-b border-gray-800 dark:border-gray-700">
           <div className="flex items-center justify-between">
-            <h1 className="text-2xl font-bold text-blue-400 dark:text-blue-400">UNIHUB</h1>
+            <h1 className="text-2xl font-bold text-blue-400 dark:text-blue-400">
+              UNIHUB
+            </h1>
             <button
               onClick={onClose}
               className="p-1 hover:bg-gray-800 rounded-lg dark:hover:bg-gray-700"
@@ -33,7 +47,9 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
               <X className="w-5 h-5 text-gray-400 dark:text-gray-300" />
             </button>
           </div>
-          <p className="text-gray-400 text-sm mt-1 dark:text-gray-300">Student Portal</p>
+          <p className="text-gray-400 text-sm mt-1 dark:text-gray-300">
+            Student Portal
+          </p>
         </div>
         <nav className="flex-1 flex flex-col justify-between h-0">
           <div className="overflow-auto flex-1">
@@ -63,6 +79,15 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
                 </a>
               </li>
               <li className="px-5 py-3 text-gray-300 hover:bg-[#0A0E27] cursor-pointer border-l-4 border-transparent hover:border-blue-400 transition-colors dark:text-gray-200 dark:hover:bg-[#232946]">
+                <button
+                  onClick={() => setDarkMode(!darkMode)}
+                  className="flex items-center w-full text-left"
+                >
+                  <FileText className="w-5 h-5 mr-3 text-gray-400 dark:text-gray-100" />
+                  DigiLocker
+                </button>
+              </li>
+              <li className="px-5 py-3 text-gray-300 hover:bg-[#0A0E27] cursor-pointer border-l-4 border-transparent hover:border-blue-400 transition-colors dark:text-gray-200 dark:hover:bg-[#232946]">
                 <a href="#" className="flex items-center">
                   <Settings className="w-5 h-5 mr-3 text-gray-400 dark:text-gray-100" />
                   Settings
@@ -74,7 +99,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
             <button
               onClick={() => {
                 localStorage.clear();
-                router.push('/');
+                router.push("/");
               }}
               className="flex items-center gap-3 w-full px-5 py-3 rounded-lg text-red-600 dark:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/50 font-medium transition-colors"
             >
@@ -85,5 +110,5 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
         </nav>
       </div>
     </>
-  )
-}
+  );
+};

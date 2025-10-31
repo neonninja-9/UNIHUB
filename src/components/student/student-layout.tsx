@@ -1,11 +1,11 @@
-'use client'
-import React, { useState } from 'react'
-import { Header } from '@/components/student/dashboard/header'
-import { Sidebar } from '@/components/student/dashboard/sidebar'
-import { ThemeProvider } from '@/hooks/use-theme'
+"use client";
+import React, { useState } from "react";
+import { Header } from "@/components/student/dashboard/header";
+import { Sidebar } from "@/components/student/dashboard/sidebar";
+import { ThemeProvider } from "@/hooks/use-theme";
 
 const StudentLayout = ({ children }: { children: React.ReactNode }) => {
-  const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
     <ThemeProvider>
@@ -19,7 +19,7 @@ const StudentLayout = ({ children }: { children: React.ReactNode }) => {
         </div>
       </div>
     </ThemeProvider>
-  )
-}
+  );
+};
 
-export default StudentLayout
+export default StudentLayout;
