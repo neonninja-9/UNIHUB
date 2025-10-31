@@ -1,5 +1,5 @@
-import { cn } from '@/lib/utils'
-import type { SVGProps } from 'react'
+import { cn } from "@/lib/utils";
+import type { SVGProps } from "react";
 
 export function Logo(props: SVGProps<SVGSVGElement>) {
   return (
@@ -11,7 +11,7 @@ export function Logo(props: SVGProps<SVGSVGElement>) {
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
-      className={cn('text-primary', props.className)}
+      className={cn("text-primary", props.className)}
       {...props}
     >
       <title>UNIHUB Logo</title>
@@ -19,5 +19,5 @@ export function Logo(props: SVGProps<SVGSVGElement>) {
       <path d="M2 17l10 5 10-5" />
       <path d="M2 12l10 5 10-5" />
     </svg>
-  )
+  );
 }

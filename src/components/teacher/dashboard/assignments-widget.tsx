@@ -6,7 +6,9 @@ export function AssignmentsWidget({ assignments }: { assignments: any[] }) {
       </h2>
       <div className="space-y-4">
         {assignments.length === 0 ? (
-          <p className="text-gray-500 dark:text-gray-400">No assignments need grading right now.</p>
+          <p className="text-gray-500 dark:text-gray-400">
+            No assignments need grading right now.
+          </p>
         ) : (
           assignments.map((item: any) => (
             <div
@@ -14,8 +16,12 @@ export function AssignmentsWidget({ assignments }: { assignments: any[] }) {
               className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-lg bg-gray-50 dark:bg-gray-900/50"
             >
               <div>
-                <h3 className="font-semibold text-gray-800 dark:text-gray-200">{item.title}</h3>
-                <p className="text-sm text-gray-500 dark:text-gray-400">{item.course}</p>
+                <h3 className="font-semibold text-gray-800 dark:text-gray-200">
+                  {item.title}
+                </h3>
+                <p className="text-sm text-gray-500 dark:text-gray-400">
+                  {item.course}
+                </p>
               </div>
               <div className="flex items-center gap-4">
                 <div className="text-right">
@@ -33,5 +39,5 @@ export function AssignmentsWidget({ assignments }: { assignments: any[] }) {
         )}
       </div>
     </div>
-  )
+  );
 }
