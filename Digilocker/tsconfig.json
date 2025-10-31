@@ -16,8 +16,5 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
-  "include": [
-    "src",
-    "DigiLocker.tsx"
-  ]
+  "include": ["src", "DigiLocker.tsx"]
 }

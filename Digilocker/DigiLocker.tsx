@@ -1,8 +1,8 @@
-import React, { useEffect, useRef } from 'react';
-import { ExternalLink } from 'lucide-react';
+import React, { useEffect, useRef } from "react";
+import { ExternalLink } from "lucide-react";
 
 interface DigiLockerWidgetProps {
-  userType: 'student' | 'teacher';
+  userType: "student" | "teacher";
 }
 
 const DigiLockerWidget: React.FC<DigiLockerWidgetProps> = ({ userType }) => {
@@ -11,7 +11,7 @@ const DigiLockerWidget: React.FC<DigiLockerWidgetProps> = ({ userType }) => {
 
   useEffect(() => {
     // Fade-in animation on load
-    const elements = document.querySelectorAll('.fade-in');
+    const elements = document.querySelectorAll(".fade-in");
     elements.forEach((el, i) => {
       (el as HTMLElement).style.animationDelay = `${i * 0.15}s`;
     });
@@ -19,9 +19,9 @@ const DigiLockerWidget: React.FC<DigiLockerWidgetProps> = ({ userType }) => {
     // Add fade-in class to elements
     const header = headerRef.current;
     if (header) {
-      const children = header.querySelectorAll('h1, p, a, h3');
+      const children = header.querySelectorAll("h1, p, a, h3");
       children.forEach((el, i) => {
-        (el as HTMLElement).classList.add('fade-in');
+        (el as HTMLElement).classList.add("fade-in");
         (el as HTMLElement).style.animationDelay = `${i * 0.15}s`;
       });
     }
@@ -56,7 +56,7 @@ const DigiLockerWidget: React.FC<DigiLockerWidgetProps> = ({ userType }) => {
   const handleHeaderMouseLeave = () => {
     const header = headerRef.current;
     if (header) {
-      header.style.transform = 'rotateY(0deg) rotateX(0deg)';
+      header.style.transform = "rotateY(0deg) rotateX(0deg)";
     }
   };
 
@@ -69,14 +69,21 @@ const DigiLockerWidget: React.FC<DigiLockerWidgetProps> = ({ userType }) => {
         onMouseLeave={handleHeaderMouseLeave}
       >
         <div className="flex justify-center mb-4">
-          <img src="Digilocker.png" alt="DigiLocker Logo" className="w-20 h-auto drop-shadow-lg" style={{ filter: 'drop-shadow(0 0 8px #3b82f6)' }} />
+          <img
+            src="Digilocker.png"
+            alt="DigiLocker Logo"
+            className="w-20 h-auto drop-shadow-lg"
+            style={{ filter: "drop-shadow(0 0 8px #3b82f6)" }}
+          />
         </div>
         <h1 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent mb-3">
-          {userType === 'student' ? 'My DigiLocker' : 'Teacher DigiLocker'}
+          {userType === "student" ? "My DigiLocker" : "Teacher DigiLocker"}
         </h1>
         <hr className="border-slate-600 my-5" />
         <p className="text-slate-400 text-base md:text-lg leading-relaxed mb-4">
-          Students can click the button below to open DigiLocker in a new tab and download their documents. DigiLocker is a government service — students should sign in with their DigiLocker account.
+          Students can click the button below to open DigiLocker in a new tab
+          and download their documents. DigiLocker is a government service —
+          students should sign in with their DigiLocker account.
         </p>
         <a
           ref={buttonRef}
@@ -96,8 +103,10 @@ const DigiLockerWidget: React.FC<DigiLockerWidgetProps> = ({ userType }) => {
         </h3>
         <p className="text-slate-400 text-sm md:text-base leading-relaxed">
           1. Click Open DigiLocker — the site opens in a new tab <br />
-          2. Sign in (Aadhaar / mobile / DigiLocker account credentials) on DigiLocker. <br />
-          3. Browse Issued Documents or Uploaded Documents and use DigiLocker's download button to save files.
+          2. Sign in (Aadhaar / mobile / DigiLocker account credentials) on
+          DigiLocker. <br />
+          3. Browse Issued Documents or Uploaded Documents and use DigiLocker's
+          download button to save files.
         </p>
       </header>
       <footer className="mt-10 text-slate-500 text-sm text-center">

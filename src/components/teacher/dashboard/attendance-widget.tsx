@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { mockCourses } from "@/lib/mock-data";
+import * as faceapi from "face-api.js";
 
 const mockStudents = [
   { id: 1, name: "Alex Doe", email: "alex.doe@unihub.com" },
@@ -26,6 +27,129 @@ export function AttendanceWidget() {
   });
 
   const [saved, setSaved] = useState(false);
+  const [isFaceRecognitionActive, setIsFaceRecognitionActive] = useState(false);
+  const [selectedCourse, setSelectedCourse] = useState(
+    mockCourses[0]?.id || null,
+  );
+  const [recognizedStudents, setRecognizedStudents] = useState(new Set());
+  const [modelsLoaded, setModelsLoaded] = useState(false);
+  const [storedFaces, setStoredFaces] = useState([]);
+
+  const videoRef = useRef(null);
+  const canvasRef = useRef(null);
+
+  // Load face-api.js models
+  useEffect(() => {
+    const loadModels = async () => {
+      try {
+        await faceapi.nets.tinyFaceDetector.loadFromUri("/models");
+        await faceapi.nets.faceLandmark68Net.loadFromUri("/models");
+        await faceapi.nets.faceRecognitionNet.loadFromUri("/models");
+        setModelsLoaded(true);
+      } catch (error) {
+        console.error("Error loading face-api models:", error);
+      }
+    };
+    loadModels();
+  }, []);
+
+  // Fetch stored face embeddings
+  useEffect(() => {
+    const fetchStoredFaces = async () => {
+      try {
+        const response = await fetch("/api/student-faces");
+        const faces = await response.json();
+        setStoredFaces(faces.filter((f) => f.faceEmbedding));
+      } catch (error) {
+        console.error("Error fetching stored faces:", error);
+      }
+    };
+    fetchStoredFaces();
+  }, []);
+
+  const startFaceRecognition = async () => {
+    if (!modelsLoaded) {
+      alert("Face recognition models are still loading. Please wait.");
+      return;
+    }
+
+    setIsFaceRecognitionActive(true);
+    setRecognizedStudents(new Set());
+
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      if (videoRef.current) {
+        videoRef.current.srcObject = stream;
+        videoRef.current.play();
+      }
+
+      // Start detection loop
+      const detectFaces = async () => {
+        if (!videoRef.current || !canvasRef.current) return;
+
+        const detections = await faceapi
+          .detectAllFaces(
+            videoRef.current,
+            new faceapi.TinyFaceDetectorOptions(),
+          )
+          .withFaceLandmarks()
+          .withFaceDescriptors();
+
+        const canvas = canvasRef.current;
+        const displaySize = {
+          width: videoRef.current.width,
+          height: videoRef.current.height,
+        };
+        faceapi.matchDimensions(canvas, displaySize);
+
+        const resizedDetections = faceapi.resizeResults(
+          detections,
+          displaySize,
+        );
+        canvas.getContext("2d").clearRect(0, 0, canvas.width, canvas.height);
+        faceapi.draw.drawDetections(canvas, resizedDetections);
+        faceapi.draw.drawFaceLandmarks(canvas, resizedDetections);
+
+        // Compare with stored faces
+        detections.forEach((detection) => {
+          storedFaces.forEach((storedFace) => {
+            if (storedFace.faceEmbedding) {
+              const distance = faceapi.euclideanDistance(
+                detection.descriptor,
+                storedFace.faceEmbedding,
+              );
+              if (distance < 0.6) {
+                // Threshold for recognition
+                setRecognizedStudents(
+                  (prev) => new Set([...prev, storedFace.studentId]),
+                );
+                // Mark attendance automatically
+                handleMark(selectedCourse, storedFace.studentId, "present");
+              }
+            }
+          });
+        });
+
+        if (isFaceRecognitionActive) {
+          requestAnimationFrame(detectFaces);
+        }
+      };
+
+      detectFaces();
+    } catch (error) {
+      console.error("Error starting face recognition:", error);
+      alert("Error accessing camera. Please check permissions.");
+    }
+  };
+
+  const stopFaceRecognition = () => {
+    setIsFaceRecognitionActive(false);
+    if (videoRef.current && videoRef.current.srcObject) {
+      const stream = videoRef.current.srcObject;
+      stream.getTracks().forEach((track) => track.stop());
+      videoRef.current.srcObject = null;
+    }
+  };
 
   function handleMark(courseId, studentId, status) {
     setAttendance((prev) => ({
@@ -42,6 +166,7 @@ export function AttendanceWidget() {
     setSaved(true);
     // Here you would call the real API to save attendance.
   }
+
   function handleReset() {
     setAttendance(() => {
       const initial = {};
@@ -67,6 +192,67 @@ export function AttendanceWidget() {
           {today}
         </span>
       </p>
+
+      {/* Face Recognition Section */}
+      <div className="mb-6 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+        <h3 className="text-lg font-semibold mb-3 text-gray-800 dark:text-white">
+          Face Recognition Attendance
+        </h3>
+        <div className="mb-3">
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+            Select Course:
+          </label>
+          <select
+            value={selectedCourse}
+            onChange={(e) => setSelectedCourse(parseInt(e.target.value))}
+            className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+          >
+            {mockCourses.map((course) => (
+              <option key={course.id} value={course.id}>
+                {course.title}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="flex gap-2 mb-3">
+          <button
+            onClick={startFaceRecognition}
+            disabled={isFaceRecognitionActive || !modelsLoaded}
+            className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 disabled:bg-gray-400"
+          >
+            {modelsLoaded ? "Start Face Recognition" : "Loading Models..."}
+          </button>
+          <button
+            onClick={stopFaceRecognition}
+            disabled={!isFaceRecognitionActive}
+            className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 disabled:bg-gray-400"
+          >
+            Stop
+          </button>
+        </div>
+        {isFaceRecognitionActive && (
+          <div className="relative mb-3">
+            <video
+              ref={videoRef}
+              width="320"
+              height="240"
+              className="border border-gray-300 dark:border-gray-600 rounded-md"
+            />
+            <canvas
+              ref={canvasRef}
+              className="absolute top-0 left-0"
+              width="320"
+              height="240"
+            />
+          </div>
+        )}
+        {recognizedStudents.size > 0 && (
+          <div className="text-sm text-green-600 dark:text-green-400">
+            Recognized Students: {Array.from(recognizedStudents).join(", ")}
+          </div>
+        )}
+      </div>
+
       {mockCourses.map((course) => (
         <div key={course.id} className="mb-6">
           <div className="font-bold text-blue-600 dark:text-blue-400 mb-2 text-lg">

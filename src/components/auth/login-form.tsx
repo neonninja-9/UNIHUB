@@ -255,28 +255,30 @@ export default function LoginForm() {
     setIsLoading(true);
     try {
       const role = loginType === "student" ? "student" : "faculty";
-      const response = await api.login(username, password, role);
 
-      if (response.success) {
-        // Save user data in localStorage or state management
-        // store user and token (if provided) so subsequent API calls include auth
-        if (response.token) {
-          try {
-            localStorage.setItem("token", response.token);
-          } catch (e) {
-            console.warn("Could not save token to localStorage", e);
-          }
-        }
-        localStorage.setItem("user", JSON.stringify(response.user));
-
-        // Redirect based on role
-        if (role === "student") {
-          router.push("/student/dashboard");
-        } else {
-          router.push("/teacher/dashboard");
-        }
+      // Mock login for demo purposes - bypass API call
+      if (username === "student" && password === "password" && role === "student") {
+        const mockUser = {
+          id: 1,
+          username: "student",
+          role: "student",
+          email: "student@unihub.com",
+          name: "Alex Thompson",
+        };
+        localStorage.setItem("user", JSON.stringify(mockUser));
+        router.push("/student/dashboard");
+      } else if (username === "faculty" && password === "password" && role === "faculty") {
+        const mockUser = {
+          id: 2,
+          username: "faculty",
+          role: "faculty",
+          email: "faculty@unihub.com",
+          name: "Dr. Sarah Johnson",
+        };
+        localStorage.setItem("user", JSON.stringify(mockUser));
+        router.push("/teacher/dashboard");
       } else {
-        setErrors({ auth: "Invalid credentials" });
+        setErrors({ auth: "Invalid credentials. Try student/password or faculty/password" });
       }
     } catch (error) {
       setErrors({ auth: "Login failed. Please try again." });

@@ -1,16 +1,5 @@
-- [x] Create mock data for John Smith in database.sql
-- [x] Add enrollments for John Smith
-- [x] Add attendance records for John Smith
-- [x] Add exam results for John Smith
-- [x] Calculate and add CGPA data
-- [x] Create notification-board.tsx component file
-- [x] Update index.ts to export NotificationBoard
-- [x] Update page.tsx to import and add NotificationBoard to the right sidebar
-- [x] Apply light mode styling to all dashboard components
-- [x] Apply custom light mode styling to attendance card
-- [x] Fix theme toggle switching between light and dark modes
-- [x] Add hamburger toggle facility for all devices
-- [x] Make sidebar open only when toggle is clicked
-- [x] Hide UNIHUB heading in header when sidebar is open
-- [x] Make dark mode toggle workable
-- [x] Create light mode version
+- face recognition based attendance system (in teacher dash) - IMPLEMENTED
+- document maneger which fetch doc from digilocker (in student dash) - IMPLEMENTED
+- assignment due and current class absent autometic notification(studend dash )
+- ai floating chatbot query resolver based on university data (both)
+- previous year papers ans resourse hub (integrated)(student dash)

@@ -79,13 +79,10 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
                 </a>
               </li>
               <li className="px-5 py-3 text-gray-300 hover:bg-[#0A0E27] cursor-pointer border-l-4 border-transparent hover:border-blue-400 transition-colors dark:text-gray-200 dark:hover:bg-[#232946]">
-                <button
-                  onClick={() => setDarkMode(!darkMode)}
-                  className="flex items-center w-full text-left"
-                >
+                <a href="#" className="flex items-center">
                   <FileText className="w-5 h-5 mr-3 text-gray-400 dark:text-gray-100" />
-                  DigiLocker
-                </button>
+                  Documents
+                </a>
               </li>
               <li className="px-5 py-3 text-gray-300 hover:bg-[#0A0E27] cursor-pointer border-l-4 border-transparent hover:border-blue-400 transition-colors dark:text-gray-200 dark:hover:bg-[#232946]">
                 <a href="#" className="flex items-center">

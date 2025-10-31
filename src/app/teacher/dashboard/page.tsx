@@ -1,16 +1,23 @@
 "use client";
 
-import React, { useState } from 'react'
-import { BookOpen, Users, FileSignature } from 'lucide-react'
-import { mockAssignments, mockCourses, mockTeacher, mockUpcomingEvents } from '@/lib/mock-data'
-import { ThemeProvider } from '@/hooks/use-theme'
-import { Sidebar } from '@/components/teacher/dashboard/sidebar'
-import { Header } from '@/components/teacher/dashboard/header'
-import { StatCard } from '@/components/teacher/dashboard/stat-card'
-import { AssignmentsWidget } from '@/components/teacher/dashboard/assignments-widget'
-import { AILessonPlanner } from '@/components/teacher/dashboard/ai-lesson-planner'
-import { UpcomingEventsWidget } from '@/components/teacher/dashboard/upcoming-events-widget'
-import { AttendanceWidget } from '@/components/teacher/dashboard/attendance-widget';
+import React, { useState } from "react";
+import { BookOpen, Users, FileSignature } from "lucide-react";
+import {
+  mockAssignments,
+  mockCourses,
+  mockTeacher,
+  mockUpcomingEvents,
+} from "@/lib/mock-data";
+import { ThemeProvider } from "@/hooks/use-theme";
+import { Sidebar } from "@/components/teacher/dashboard/sidebar";
+import { Header } from "@/components/teacher/dashboard/header";
+import { StatCard } from "@/components/teacher/dashboard/stat-card";
+import { AssignmentsWidget } from "@/components/teacher/dashboard/assignments-widget";
+import { AILessonPlanner } from "@/components/teacher/dashboard/ai-lesson-planner";
+import { UpcomingEventsWidget } from "@/components/teacher/dashboard/upcoming-events-widget";
+import { AttendanceWidget } from "@/components/teacher/dashboard/attendance-widget";
+import DigiLockerWidget from "@/components/DigiLockerWidget";
+import { Chatbot } from "@/components/ui/chatbot";
 
 function Dashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -44,6 +51,7 @@ function Dashboard() {
           </div>
         </main>
       </div>
+      <Chatbot userType="teacher" userData={mockTeacher} />
     </div>
   );
 }

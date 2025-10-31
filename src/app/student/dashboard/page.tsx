@@ -17,9 +17,12 @@ import {
   Deadlines,
   Schedule,
   AttendanceChart,
-  NotificationBoard
-} from '@/components/student/dashboard/components'
-import { DashboardHeader } from '@/components/student/dashboard/components/header'
+  NotificationBoard,
+  ResourceHub,
+} from "@/components/student/dashboard/components";
+import { DashboardHeader } from "@/components/student/dashboard/components/header";
+import DigiLockerWidget from "@/components/DigiLockerWidget";
+import { Chatbot } from "@/components/ui/chatbot";
 
 // Loading component
 const LoadingSpinner = () => (
@@ -473,12 +476,18 @@ export default function StudentDashboard() {
             <div className="space-y-4 md:space-y-6">
               <Deadlines courses={courses} grades={grades} />
               <Schedule courses={courses} />
-              <NotificationBoard />
+              <NotificationBoard
+                courses={courses}
+                grades={grades}
+                attendance={attendance}
+              />
+              <ResourceHub />
               <DigiLockerWidget userType="student" />
             </div>
           </div>
         </div>
       </div>
+      <Chatbot userType="student" userData={student} />
     </div>
   );
 }

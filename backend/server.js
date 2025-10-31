@@ -4,7 +4,7 @@ require("dotenv").config();
 const mockData = require("./mockData");
 
 const app = express();
-const PORT = process.env.BACKEND_PORT || 3001;
+const PORT = process.env.BACKEND_PORT || 3002;
 
 // Middleware
 app.use(cors());
@@ -96,6 +96,38 @@ app.get("/api/courses", (req, res) => {
 app.post("/api/attendance", (req, res) => {
   // Just echo request in mock server
   res.json({ success: true, ...req.body });
+});
+
+// Face recognition routes
+app.get("/api/student-faces", (req, res) => {
+  res.json(mockData.studentFaces);
+});
+
+app.post("/api/student-faces/:studentId", (req, res) => {
+  const { studentId } = req.params;
+  const { faceEmbedding } = req.body;
+  const faceIndex = mockData.studentFaces.findIndex(
+    (f) => f.studentId === parseInt(studentId),
+  );
+  if (faceIndex !== -1) {
+    mockData.studentFaces[faceIndex].faceEmbedding = faceEmbedding;
+    res.json({ success: true, message: "Face embedding stored" });
+  } else {
+    res.status(404).json({ error: "Student not found" });
+  }
+});
+
+app.post("/api/face-attendance", (req, res) => {
+  const { studentId, courseId, date } = req.body;
+  const record = {
+    studentId,
+    courseId,
+    date,
+    status: "present",
+    method: "face-recognition",
+  };
+  mockData.faceAttendance.push(record);
+  res.json({ success: true, record });
 });
 
 app.listen(PORT, "0.0.0.0", () => {

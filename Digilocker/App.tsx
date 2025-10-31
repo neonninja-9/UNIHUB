@@ -1,5 +1,5 @@
-import React from 'react';
-import DigiLocker from './DigiLocker';
+import React from "react";
+import DigiLocker from "./DigiLocker";
 
 const App: React.FC = () => {
   return (

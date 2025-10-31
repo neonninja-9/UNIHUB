@@ -40,4 +40,67 @@ module.exports = {
     { id: 1, message: "Welcome to UniHub!", date: "2025-10-01" },
     { id: 2, message: "Exam schedule released.", date: "2025-10-05" },
   ],
+  // New data for face recognition
+  studentFaces: [
+    { studentId: 1, faceEmbedding: null }, // Will store face embeddings
+    { studentId: 2, faceEmbedding: null },
+  ],
+  faceAttendance: [], // Store face-based attendance records
+  // New data for DigiLocker documents
+  studentDocuments: {
+    1: [
+      {
+        id: "1",
+        name: "Class 10 Marksheet",
+        type: "Academic Certificate",
+        issuer: "Central Board of Secondary Education",
+        issueDate: "2020-05-15",
+        status: "active",
+        downloadUrl: "#",
+        previewUrl: "#",
+      },
+      {
+        id: "2",
+        name: "Class 12 Marksheet",
+        type: "Academic Certificate",
+        issuer: "Central Board of Secondary Education",
+        issueDate: "2022-05-20",
+        status: "active",
+        downloadUrl: "#",
+        previewUrl: "#",
+      },
+      {
+        id: "3",
+        name: "Bachelor Degree Certificate",
+        type: "Degree Certificate",
+        issuer: "University of Delhi",
+        issueDate: "2024-06-10",
+        status: "pending",
+        downloadUrl: "#",
+        previewUrl: "#",
+      },
+      {
+        id: "4",
+        name: "Aadhaar Card",
+        type: "Identity Document",
+        issuer: "Unique Identification Authority of India",
+        issueDate: "2018-03-12",
+        status: "active",
+        downloadUrl: "#",
+        previewUrl: "#",
+      },
+    ],
+    2: [
+      {
+        id: "5",
+        name: "Class 10 Marksheet",
+        type: "Academic Certificate",
+        issuer: "Central Board of Secondary Education",
+        issueDate: "2020-05-15",
+        status: "active",
+        downloadUrl: "#",
+        previewUrl: "#",
+      },
+    ],
+  },
 };
