@@ -1,20 +1,24 @@
-import React from 'react'
-import Link from 'next/link'
+import React from "react";
+import Link from "next/link";
 
 interface LayoutProps {
-  children: React.ReactNode
+  children: React.ReactNode;
   user?: {
-    name: string
-    role: string
-  }
+    name: string;
+    role: string;
+  };
   navLinks?: Array<{
-    href: string
-    label: string
-    icon?: string
-  }>
+    href: string;
+    label: string;
+    icon?: string;
+  }>;
 }
 
-export const Layout: React.FC<LayoutProps> = ({ children, user, navLinks = [] }) => {
+export const Layout: React.FC<LayoutProps> = ({
+  children,
+  user,
+  navLinks = [],
+}) => {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -27,9 +31,12 @@ export const Layout: React.FC<LayoutProps> = ({ children, user, navLinks = [] })
             {user && (
               <div className="flex items-center space-x-4">
                 <span className="text-sm text-gray-700">
-                  Welcome, {user.name.split(' ')[0]} ({user.role})
+                  Welcome, {user.name.split(" ")[0]} ({user.role})
                 </span>
-                <Link href="/" className="text-blue-600 hover:text-blue-800 text-sm">
+                <Link
+                  href="/"
+                  className="text-blue-600 hover:text-blue-800 text-sm"
+                >
                   Logout
                 </Link>
               </div>
@@ -60,8 +67,10 @@ export const Layout: React.FC<LayoutProps> = ({ children, user, navLinks = [] })
         )}
 
         {/* Main Content */}
-        <main className={`flex-1 ${navLinks.length > 0 ? 'p-8' : 'p-4'}`}>{children}</main>
+        <main className={`flex-1 ${navLinks.length > 0 ? "p-8" : "p-4"}`}>
+          {children}
+        </main>
       </div>
     </div>
-  )
-}
+  );
+};

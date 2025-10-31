@@ -20,13 +20,17 @@ body {
 
 /* Custom light mode card shadow */
 .light .card-shadow {
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 /* Attendance card animations */
 @keyframes fillGrow {
-  from { width: 0; }
-  to { width: var(--percent); }
+  from {
+    width: 0;
+  }
+  to {
+    width: var(--percent);
+  }
 }
 
 @keyframes rotate_fade_in {

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { Search, Bell, Moon, Menu, Sun, RefreshCw } from 'lucide-react'
 import { Student } from '@/lib/types'
 import { useTheme } from '@/hooks/use-theme'
@@ -10,18 +11,33 @@ interface HeaderProps {
   onSearchChange?: (query: string) => void
   onRefresh?: () => void
   refreshing?: boolean
+=======
+import { Search, Bell, Moon, Menu, Sun } from "lucide-react";
+import { Student } from "@/lib/types";
+import { useTheme } from "@/hooks/use-theme";
+
+interface HeaderProps {
+  student?: Student;
+  onMenuClick: () => void;
+  sidebarOpen: boolean;
+>>>>>>> 66ad0c7e130c57ef79d3185326baf1c18479c3e4
 }
 
 export function DashboardHeader({
   student,
   onMenuClick,
   sidebarOpen,
+<<<<<<< HEAD
   searchQuery = '',
   onSearchChange,
   onRefresh,
   refreshing = false
 }: HeaderProps) {
   const { darkMode, setDarkMode } = useTheme()
+=======
+}: HeaderProps) {
+  const { darkMode, setDarkMode } = useTheme();
+>>>>>>> 66ad0c7e130c57ef79d3185326baf1c18479c3e4
 
   return (
     <header className="bg-[#1A1F3A] border-b border-gray-800 dark:bg-white dark:border-gray-200 shadow-lg dark:shadow-[0_4px_12px_rgba(0,0,0,0.08)]">
@@ -35,8 +51,12 @@ export function DashboardHeader({
           </button>
           {!sidebarOpen && (
             <>
-              <h1 className="text-xl font-bold text-blue-400 dark:text-blue-600">UNIHUB</h1>
-              <span className="text-gray-400 text-sm dark:text-gray-600">Student Portal</span>
+              <h1 className="text-xl font-bold text-blue-400 dark:text-blue-600">
+                UNIHUB
+              </h1>
+              <span className="text-gray-400 text-sm dark:text-gray-600">
+                Student Portal
+              </span>
             </>
           )}
         </div>
@@ -56,6 +76,7 @@ export function DashboardHeader({
 
         <div className="flex items-center gap-4">
           <button
+<<<<<<< HEAD
             onClick={onRefresh}
             disabled={refreshing}
             className="p-2 hover:bg-gray-800 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed dark:hover:bg-gray-200 transition-colors"
@@ -65,8 +86,19 @@ export function DashboardHeader({
           <button
             onClick={() => setDarkMode(!darkMode)}
             className="p-2 hover:bg-gray-800 rounded-lg dark:hover:bg-gray-200 transition-colors"
+=======
+            onClick={() => setDarkMode?.(!darkMode)}
+            className="p-2 hover:bg-gray-800 rounded-lg dark:hover:bg-gray-200"
+            aria-label="Toggle dark mode"
+            disabled={!setDarkMode}
+            title={darkMode ? "Switch to light mode" : "Switch to dark mode"}
+>>>>>>> 66ad0c7e130c57ef79d3185326baf1c18479c3e4
           >
-            {darkMode ? <Sun className="w-5 h-5 text-gray-400 dark:text-gray-600" /> : <Moon className="w-5 h-5 text-gray-400 dark:text-gray-600" />}
+            {darkMode ? (
+              <Sun className="w-5 h-5 text-gray-400 dark:text-gray-600" />
+            ) : (
+              <Moon className="w-5 h-5 text-gray-400 dark:text-gray-600" />
+            )}
           </button>
           <button className="p-2 hover:bg-gray-800 rounded-lg relative dark:hover:bg-gray-200 transition-colors">
             <Bell className="w-5 h-5 text-gray-400 dark:text-gray-600" />
@@ -74,15 +106,19 @@ export function DashboardHeader({
           </button>
           <div className="flex items-center gap-2 ml-2">
             <div className="w-10 h-10 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center font-bold">
-              {student?.name?.slice(0, 2).toUpperCase() || 'ST'}
+              {student?.name?.slice(0, 2).toUpperCase() || "ST"}
             </div>
             <div className="text-sm">
-              <div className="font-semibold text-white dark:text-gray-900">{student?.name || 'Loading...'}</div>
-              <div className="text-gray-400 text-xs dark:text-gray-600">Student</div>
+              <div className="font-semibold text-white dark:text-gray-900">
+                {student?.name || "Loading..."}
+              </div>
+              <div className="text-gray-400 text-xs dark:text-gray-600">
+                Student
+              </div>
             </div>
           </div>
         </div>
       </div>
     </header>
-  )
+  );
 }

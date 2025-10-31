@@ -1,10 +1,15 @@
-import { BookOpen } from 'lucide-react'
-import { Course, Attendance } from '@/lib/types'
+import { BookOpen } from "lucide-react";
+import { Course, Attendance } from "@/lib/types";
 
 interface CourseListProps {
+<<<<<<< HEAD
   courses: Course[]
   attendance: Attendance[]
   onCourseClick?: (course: Course) => void
+=======
+  courses: Course[];
+  attendance: Attendance[];
+>>>>>>> 66ad0c7e130c57ef79d3185326baf1c18479c3e4
 }
 
 export function CourseList({ courses, attendance, onCourseClick }: CourseListProps) {
@@ -14,28 +19,39 @@ export function CourseList({ courses, attendance, onCourseClick }: CourseListPro
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {courses.map((course, index) => {
           // normalize id field: backend may return `id` or `course_id`
-          const courseId = (course as any).id ?? (course as any).course_id ?? index
+          const courseId =
+            (course as any).id ?? (course as any).course_id ?? index;
           const colors = [
-            'from-blue-500 to-blue-700 dark:from-[#60a5fa] dark:to-[#3b82f6]',
-            'from-pink-500 to-pink-700 dark:from-[#f472b6] dark:to-[#ec4899]',
-            'from-green-500 to-green-700 dark:from-[#34d399] dark:to-[#10b981]',
-            'from-orange-500 to-orange-700 dark:from-[#fbbf24] dark:to-[#f59e0b]',
-            'from-violet-500 to-violet-700 dark:from-[#a78bfa] dark:to-[#8b5cf6]',
-            'from-teal-500 to-teal-700 dark:from-[#5eead4] dark:to-[#14b8a6]'
-          ]
-          const colorClass = colors[index % colors.length]
-          
+            "from-blue-500 to-blue-700 dark:from-[#60a5fa] dark:to-[#3b82f6]",
+            "from-pink-500 to-pink-700 dark:from-[#f472b6] dark:to-[#ec4899]",
+            "from-green-500 to-green-700 dark:from-[#34d399] dark:to-[#10b981]",
+            "from-orange-500 to-orange-700 dark:from-[#fbbf24] dark:to-[#f59e0b]",
+            "from-violet-500 to-violet-700 dark:from-[#a78bfa] dark:to-[#8b5cf6]",
+            "from-teal-500 to-teal-700 dark:from-[#5eead4] dark:to-[#14b8a6]",
+          ];
+          const colorClass = colors[index % colors.length];
+
           // Calculate course progress
-          const courseAttendance = attendance.filter(a => a.course_id === courseId)
-          const totalClasses = courseAttendance.length
-          const presentClasses = courseAttendance.filter(a => a.status === 'present').length
-          const progress = totalClasses ? (presentClasses / totalClasses) * 100 : 0
+          const courseAttendance = attendance.filter(
+            (a) => a.course_id === courseId,
+          );
+          const totalClasses = courseAttendance.length;
+          const presentClasses = courseAttendance.filter(
+            (a) => a.status === "present",
+          ).length;
+          const progress = totalClasses
+            ? (presentClasses / totalClasses) * 100
+            : 0;
 
           return (
             <div
               key={courseId}
+<<<<<<< HEAD
               className={`bg-gradient-to-br ${colorClass} rounded-xl p-6 cursor-pointer hover:scale-105 transition-all duration-200 hover:shadow-xl`}
               onClick={() => onCourseClick?.(course)}
+=======
+              className={`bg-gradient-to-br ${colorClass} rounded-xl p-6`}
+>>>>>>> 66ad0c7e130c57ef79d3185326baf1c18479c3e4
             >
               <div className="flex items-center justify-between mb-4">
                 <BookOpen className="w-6 h-6" />
@@ -51,15 +67,19 @@ export function CourseList({ courses, attendance, onCourseClick }: CourseListPro
                 </div>
                 <div className="w-full bg-white/20 rounded-full h-2">
                   <div
+<<<<<<< HEAD
                     className="bg-white rounded-full h-2 transition-all duration-300"
+=======
+                    className="bg-white rounded-full h-2"
+>>>>>>> 66ad0c7e130c57ef79d3185326baf1c18479c3e4
                     style={{ width: `${progress}%` }}
                   ></div>
                 </div>
               </div>
             </div>
-          )
+          );
         })}
       </div>
     </div>
-  )
+  );
 }

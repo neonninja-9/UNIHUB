@@ -1,16 +1,19 @@
-import { mockTeacher } from '@/lib/mock-data'
-import { Bell, ChevronDown, Menu, Moon, Search, Sun } from 'lucide-react'
-import { useTheme } from '@/hooks/use-theme'
+import { mockTeacher } from "@/lib/mock-data";
+import { Bell, ChevronDown, Menu, Moon, Search, Sun } from "lucide-react";
+import { useTheme } from "@/hooks/use-theme";
 
 export function Header({ onMenuClick }: { onMenuClick: () => void }) {
-  const { darkMode, setDarkMode } = useTheme()
+  const { darkMode, setDarkMode } = useTheme();
 
   return (
     <header className="sticky top-0 z-20 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-700">
       <div className="flex items-center justify-between h-16 px-4 md:px-8">
         {/* Left Side: Mobile Menu & Search */}
         <div className="flex items-center gap-3">
-          <button onClick={onMenuClick} className="lg:hidden text-gray-600 dark:text-gray-300">
+          <button
+            onClick={onMenuClick}
+            className="lg:hidden text-gray-600 dark:text-gray-300"
+          >
             <Menu className="w-6 h-6" />
           </button>
 
@@ -30,7 +33,11 @@ export function Header({ onMenuClick }: { onMenuClick: () => void }) {
             onClick={() => setDarkMode(!darkMode)}
             className="text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white"
           >
-            {darkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+            {darkMode ? (
+              <Sun className="w-5 h-5" />
+            ) : (
+              <Moon className="w-5 h-5" />
+            )}
           </button>
 
           <button className="relative text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white">
@@ -49,7 +56,7 @@ export function Header({ onMenuClick }: { onMenuClick: () => void }) {
               className="w-9 h-9 rounded-full object-cover border-2 border-gray-300 dark:border-gray-600"
               onError={(e) =>
                 ((e.target as HTMLImageElement).src =
-                  'https://placehold.co/100x100/E2E8F0/4A5568?text=ER')
+                  "https://placehold.co/100x100/E2E8F0/4A5568?text=ER")
               }
             />
             <div className="hidden md:block">
@@ -63,5 +70,5 @@ export function Header({ onMenuClick }: { onMenuClick: () => void }) {
         </div>
       </div>
     </header>
-  )
+  );
 }
