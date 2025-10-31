@@ -130,6 +130,48 @@ app.post("/api/face-attendance", (req, res) => {
   res.json({ success: true, record });
 });
 
+// Chat API route
+app.post("/api/chat", (req, res) => {
+  const { message } = req.body;
+  if (!message) {
+    return res.status(400).json({ error: "Message is required" });
+  }
+
+  const { spawn } = require('child_process');
+  const pythonProcess = spawn('python', ['backend/chatbot.py', message]);
+
+  let result = '';
+  let error = '';
+
+  pythonProcess.stdout.on('data', (data) => {
+    result += data.toString();
+  });
+
+  pythonProcess.stderr.on('data', (data) => {
+    error += data.toString();
+  });
+
+  pythonProcess.on('close', (code) => {
+    if (code !== 0) {
+      console.error('Python script error:', error);
+      return res.status(500).json({ error: 'Failed to process chat message' });
+    }
+
+    try {
+      const response = JSON.parse(result.trim());
+      res.json(response);
+    } catch (parseError) {
+      console.error('JSON parse error:', parseError);
+      res.status(500).json({ error: 'Invalid response from chat service' });
+    }
+  });
+
+  pythonProcess.on('error', (err) => {
+    console.error('Failed to start Python process:', err);
+    res.status(500).json({ error: 'Chat service unavailable' });
+  });
+});
+
 app.listen(PORT, "0.0.0.0", () => {
   console.log(`Server is running on port ${PORT}`);
 });

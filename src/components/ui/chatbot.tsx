@@ -108,31 +108,29 @@ export function Chatbot({ userType, userData }: ChatbotProps) {
       return `I can help with: course information, assignments, grades, attendance, schedule, and general university queries. Just ask!`;
     }
 
-    // For other queries, use Google Gemini API
+    // For other queries, use Gemini API via Python script
     try {
-      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyCnnjkYzUn0AjDTU1Vwgd6oOZ19L13NPO0`, {
+      const response = await fetch('http://localhost:3002/api/chat', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          contents: [{
-            parts: [{
-              text: `You are a helpful university assistant chatbot. The user is asking: "${query}". Please provide a helpful, concise response related to university life, academics, or general knowledge. Keep your response under 200 words.`
-            }]
-          }]
+          message: query
         })
       });
 
       if (response.ok) {
         const data = await response.json();
-        const aiResponse = data.candidates?.[0]?.content?.parts?.[0]?.text;
-        if (aiResponse) {
-          return aiResponse.trim();
+        if (data.status === 'success') {
+          return data.response;
+        } else {
+          return `Error: ${data.error}`;
         }
       }
     } catch (error) {
-      console.error('Gemini API error:', error);
+      console.error('Chat API error:', error);
+      return 'Sorry, I am unable to respond right now.';
     }
 
     // Fallback responses if API fails

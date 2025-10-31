@@ -57,9 +57,12 @@ export function AttendanceWidget() {
   useEffect(() => {
     const fetchStoredFaces = async () => {
       try {
-        const response = await fetch("/api/student-faces");
-        const faces = await response.json();
-        setStoredFaces(faces.filter((f) => f.faceEmbedding));
+        const { data, error } = await api.get('/api/student-faces');
+        if (error) {
+          console.error("Error fetching stored faces:", error);
+          return;
+        }
+        setStoredFaces(data.filter((f) => f.faceEmbedding));
       } catch (error) {
         console.error("Error fetching stored faces:", error);
       }

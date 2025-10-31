@@ -9,7 +9,7 @@ import {
   TeachingAssignment,
 } from "./types";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3002";
 
 async function handleResponse<T>(response: Response): Promise<ApiResponse<T>> {
   const data = await response.json();
