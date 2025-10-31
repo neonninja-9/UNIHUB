@@ -8,25 +8,26 @@ const ThemeContext = createContext<
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [darkMode, setDarkMode] = useState(false)
-  const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
-    setMounted(true)
     const isDark = localStorage.getItem('darkMode') === 'true'
     setDarkMode(isDark)
+    if (isDark) {
+      document.documentElement.classList.add('dark')
+    } else {
+      document.documentElement.classList.remove('dark')
+    }
   }, [])
 
   useEffect(() => {
-    if (mounted) {
-      if (darkMode) {
-        document.documentElement.classList.add('dark')
-        localStorage.setItem('darkMode', 'true')
-      } else {
-        document.documentElement.classList.remove('dark')
-        localStorage.setItem('darkMode', 'false')
-      }
+    if (darkMode) {
+      document.documentElement.classList.add('dark')
+      localStorage.setItem('darkMode', 'true')
+    } else {
+      document.documentElement.classList.remove('dark')
+      localStorage.setItem('darkMode', 'false')
     }
-  }, [darkMode, mounted])
+  }, [darkMode])
 
   return <ThemeContext.Provider value={{ darkMode, setDarkMode }}>{children}</ThemeContext.Provider>
 }

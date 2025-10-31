@@ -5,9 +5,10 @@ interface StatsCardsProps {
   grades: Grade[]
   attendance: Attendance[]
   courses: Course[]
+  onStatClick?: (statType: string) => void
 }
 
-export function StatsCards({ grades, attendance, courses }: StatsCardsProps) {
+export function StatsCards({ grades, attendance, courses, onStatClick }: StatsCardsProps) {
   const calculateGPA = () => {
     const completedGrades = grades.filter(g => g.marks_obtained !== null)
     const totalPoints = completedGrades.reduce((sum, grade) => {
@@ -40,27 +41,31 @@ export function StatsCards({ grades, attendance, courses }: StatsCardsProps) {
         iconBg="bg-green-500/20"
         label="CGPA"
         value={calculateGPA()}
+        onClick={() => onStatClick?.('CGPA')}
       />
-      
+
       <StatCard
         icon={<Users className="w-5 h-5 text-blue-400" />}
         iconBg="bg-blue-500/20"
         label="Attendance"
         value={calculateAttendance()}
+        onClick={() => onStatClick?.('Attendance')}
       />
-      
+
       <StatCard
         icon={<AlertCircle className="w-5 h-5 text-purple-400" />}
         iconBg="bg-purple-500/20"
         label="Pending Tasks"
         value={pendingTasks}
+        onClick={() => onStatClick?.('Pending Tasks')}
       />
-      
+
       <StatCard
         icon={<Award className="w-5 h-5 text-yellow-400" />}
         iconBg="bg-yellow-500/20"
         label="Courses"
         value={courses.length}
+        onClick={() => onStatClick?.('Courses')}
       />
     </div>
   )
@@ -71,11 +76,15 @@ interface StatCardProps {
   iconBg: string
   label: string
   value: string | number
+  onClick?: () => void
 }
 
-function StatCard({ icon, iconBg, label, value }: StatCardProps) {
+function StatCard({ icon, iconBg, label, value, onClick }: StatCardProps) {
   return (
-    <div className="bg-[#1A1F3A] dark:bg-white rounded-xl p-5 shadow-lg dark:shadow-[0_4px_12px_rgba(0,0,0,0.08)]">
+    <div
+      className="bg-[#1A1F3A] dark:bg-white rounded-xl p-5 shadow-lg dark:shadow-[0_4px_12px_rgba(0,0,0,0.08)] cursor-pointer hover:scale-105 transition-all duration-200 hover:shadow-xl"
+      onClick={onClick}
+    >
       <div className="flex items-center gap-3 mb-2">
         <div className={`w-10 h-10 rounded-full ${iconBg} flex items-center justify-center`}>
           {icon}

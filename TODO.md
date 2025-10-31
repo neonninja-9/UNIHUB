@@ -1,16 +1,12 @@
-- [x] Create mock data for John Smith in database.sql
-- [x] Add enrollments for John Smith
-- [x] Add attendance records for John Smith
-- [x] Add exam results for John Smith
-- [x] Calculate and add CGPA data
-- [x] Create notification-board.tsx component file
-- [x] Update index.ts to export NotificationBoard
-- [x] Update page.tsx to import and add NotificationBoard to the right sidebar
-- [x] Apply light mode styling to all dashboard components
-- [x] Apply custom light mode styling to attendance card
-- [x] Fix theme toggle switching between light and dark modes
-- [x] Add hamburger toggle facility for all devices
-- [x] Make sidebar open only when toggle is clicked
-- [x] Hide UNIHUB heading in header when sidebar is open
-- [x] Make dark mode toggle workable
-- [x] Create light mode version
+# TODO List for Making Student Dashboard More Interactive and Responsive
+
+- [ ] Add click handlers to quick links for navigation/actions
+- [ ] Make course cards clickable with hover effects
+- [ ] Implement search functionality in header
+- [ ] Add interactive notifications (mark as read, dismiss)
+- [ ] Make stats cards clickable for detailed views
+- [ ] Improve mobile responsiveness and layouts
+- [ ] Add filtering/sorting capabilities
+- [ ] Enhance loading states and animations
+- [ ] Add refresh functionality
+- [ ] Implement expandable sections
