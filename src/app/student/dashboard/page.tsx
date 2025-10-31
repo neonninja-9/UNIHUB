@@ -15,6 +15,7 @@ import {
   AttendanceChart,
   NotificationBoard
 } from '@/components/student/dashboard/components'
+import DigiLockerWidget from '@/components/DigiLockerWidget'
 import { DashboardHeader } from '@/components/student/dashboard/components/header'
 
 // Loading component
@@ -190,6 +191,7 @@ export default function StudentDashboard() {
               />
               <Schedule courses={courses} />
               <NotificationBoard />
+              <DigiLockerWidget userType="student" />
             </div>
           </div>
         </div>

@@ -11,6 +11,7 @@ import { AssignmentsWidget } from '@/components/teacher/dashboard/assignments-wi
 import { AILessonPlanner } from '@/components/teacher/dashboard/ai-lesson-planner'
 import { UpcomingEventsWidget } from '@/components/teacher/dashboard/upcoming-events-widget'
 import { AttendanceWidget } from '@/components/teacher/dashboard/attendance-widget';
+import DigiLockerWidget from '@/components/DigiLockerWidget';
 
 function Dashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
@@ -35,6 +36,7 @@ function Dashboard() {
               <div className="col-span-1 space-y-8">
                 <AILessonPlanner />
                 <UpcomingEventsWidget events={mockUpcomingEvents} />
+                <DigiLockerWidget userType="teacher" />
               </div>
             </div>
           </div>
