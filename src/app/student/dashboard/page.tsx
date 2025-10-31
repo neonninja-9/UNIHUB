@@ -7,7 +7,8 @@ import {
   mockStudentCourses,
   mockRecentGrades,
 } from "@/lib/student-mock-data";
-import { Attendance } from "@/lib/types";
+import { Attendance, Student, Course, Grade } from "@/lib/types";
+import { api } from "@/lib/api";
 import { Sidebar } from "@/components/student/dashboard/sidebar";
 import {
   WelcomeCard,
@@ -17,19 +18,13 @@ import {
   Deadlines,
   Schedule,
   AttendanceChart,
-<<<<<<< HEAD
-  NotificationBoard
-} from '@/components/student/dashboard/components'
-import { DashboardHeader } from '@/components/student/dashboard/components/header'
-import { useToast } from '@/hooks/use-toast'
-=======
   NotificationBoard,
   ResourceHub,
 } from "@/components/student/dashboard/components";
 import { DashboardHeader } from "@/components/student/dashboard/components/header";
 import DigiLockerWidget from "@/components/DigiLockerWidget";
 import { Chatbot } from "@/components/ui/chatbot";
->>>>>>> 66ad0c7e130c57ef79d3185326baf1c18479c3e4
+import { useToast } from "@/hooks/use-toast";
 
 // Loading component
 const LoadingSpinner = () => (
@@ -39,32 +34,23 @@ const LoadingSpinner = () => (
 );
 
 export default function StudentDashboard() {
-<<<<<<< HEAD
-  const router = useRouter()
-  const { toast } = useToast()
-  const [student, setStudent] = useState<Student | null>(null)
-  const [courses, setCourses] = useState<Course[]>([])
-  const [attendance, setAttendance] = useState<Attendance[]>([])
-  const [grades, setGrades] = useState<Grade[]>([])
-  const [loading, setLoading] = useState(true)
-  const [sidebarOpen, setSidebarOpen] = useState(false)
-  const [searchQuery, setSearchQuery] = useState('')
-  const [selectedCourse, setSelectedCourse] = useState<Course | null>(null)
-  const [refreshing, setRefreshing] = useState(false)
-=======
   const router = useRouter();
-  const [student, setStudent] = useState<any>(null);
-  const [courses, setCourses] = useState<any[]>([]);
+  const { toast } = useToast();
+  const [student, setStudent] = useState<Student | null>(null);
+  const [courses, setCourses] = useState<Course[]>([]);
   const [attendance, setAttendance] = useState<Attendance[]>([]);
-  const [grades, setGrades] = useState<any[]>([]);
+  const [grades, setGrades] = useState<Grade[]>([]);
   const [loading, setLoading] = useState(true);
   const [sidebarOpen, setSidebarOpen] = useState(false);
->>>>>>> 66ad0c7e130c57ef79d3185326baf1c18479c3e4
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
+  const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
     // Instead of fetching from API, use mock data
     setStudent({
       id: 1,
+      user_id: 1,
       ...mockStudent,
       roll_number: "S101",
       class_section: "A",
@@ -448,61 +434,61 @@ export default function StudentDashboard() {
   }, [router]);
 
   const handleRefresh = async () => {
-    setRefreshing(true)
+    setRefreshing(true);
     try {
       // Re-fetch data
-      const user = JSON.parse(localStorage.getItem('user') || '{}')
+      const user = JSON.parse(localStorage.getItem('user') || '{}');
       const [courseRes, gradesRes] = await Promise.all([
         api.getCourses(),
         api.getStudentResults(user.id)
-      ])
+      ]);
 
-      const coursesData = ((courseRes && (courseRes as any).data) ? (courseRes as any).data : courseRes) as Course[] || []
-      setCourses(coursesData)
-      const gradesData = (gradesRes && (gradesRes as any).data) ? (gradesRes as any).data : gradesRes || []
-      setGrades(gradesData)
+      const coursesData = ((courseRes && (courseRes as any).data) ? (courseRes as any).data : courseRes) as Course[] || [];
+      setCourses(coursesData);
+      const gradesData = (gradesRes && (gradesRes as any).data) ? (gradesRes as any).data : gradesRes || [];
+      setGrades(gradesData);
 
       const attendancePromises = coursesData.map(course =>
         api.getStudentAttendance(user.id, course.id)
-      )
-      const attendanceResults = await Promise.all(attendancePromises)
-      const allAttendance = attendanceResults.flatMap((res: any) => (res && res.data) ? res.data : res || [])
-      setAttendance(allAttendance as Attendance[])
+      );
+      const attendanceResults = await Promise.all(attendancePromises);
+      const allAttendance = attendanceResults.flatMap((res: any) => (res && res.data) ? res.data : res || []);
+      setAttendance(allAttendance as Attendance[]);
 
       toast({
         title: "Dashboard refreshed",
         description: "Your data has been updated successfully.",
-      })
+      });
     } catch (error) {
       toast({
         title: "Refresh failed",
         description: "Unable to refresh data. Please try again.",
-      })
+      });
     } finally {
-      setRefreshing(false)
+      setRefreshing(false);
     }
-  }
+  };
 
   const handleQuickLinkClick = (link: string) => {
     toast({
       title: `${link} clicked`,
       description: `Navigating to ${link}...`,
-    })
+    });
     // Here you would implement actual navigation
-  }
+  };
 
   const handleCourseClick = (course: Course) => {
-    setSelectedCourse(course)
+    setSelectedCourse(course);
     toast({
       title: course.name,
       description: `Viewing details for ${course.name}`,
-    })
-  }
+    });
+  };
 
   const filteredCourses = courses.filter(course =>
     course.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
     course.code.toLowerCase().includes(searchQuery.toLowerCase())
-  )
+  );
 
   if (loading) {
     return <LoadingSpinner />;
@@ -529,42 +515,28 @@ export default function StudentDashboard() {
   return (
     <div className="min-h-screen bg-[#0A0E27] text-white flex-col flex dark:bg-[#f9fafb] dark:text-gray-900 transition-colors duration-300">
       <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
-<<<<<<< HEAD
 
-      <div className="flex-1">
-=======
       <div className="flex-1 w-full">
->>>>>>> 66ad0c7e130c57ef79d3185326baf1c18479c3e4
         <DashboardHeader
           student={student}
           onMenuClick={() => setSidebarOpen(true)}
           sidebarOpen={sidebarOpen}
-<<<<<<< HEAD
           searchQuery={searchQuery}
           onSearchChange={setSearchQuery}
           onRefresh={handleRefresh}
           refreshing={refreshing}
         />
 
-        {/* Main Content */}
-        <div className="p-4 md:p-6 max-w-[1600px] mx-auto">
-          <div className="grid grid-cols-1 xl:grid-cols-3 gap-4 md:gap-6">
-            {/* Left & Center Content */}
-            <div className="xl:col-span-2 space-y-4 md:space-y-6">
-=======
-        />
         {/* Responsive Main Content */}
         <div className="p-2 sm:p-4 md:p-6 max-w-full md:max-w-[1600px] mx-auto transition-all duration-300">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
             {/* Left & Center Content */}
             <div className="sm:col-span-2 space-y-4 md:space-y-6">
->>>>>>> 66ad0c7e130c57ef79d3185326baf1c18479c3e4
               <WelcomeCard student={student} />
               <StatsCards
                 grades={grades}
                 attendance={attendance}
                 courses={courses}
-<<<<<<< HEAD
                 onStatClick={(stat) => toast({ title: stat, description: `Viewing ${stat} details` })}
               />
               <AttendanceChart
@@ -581,33 +553,17 @@ export default function StudentDashboard() {
               <QuickLinks onLinkClick={handleQuickLinkClick} />
             </div>
 
-            {/* Right Sidebar */}
-            <div className="xl:col-span-1 space-y-4 md:space-y-6">
-              <Deadlines
-                courses={filteredCourses}
-=======
-              />
-              <CourseList courses={courses} attendance={attendance} />
-              <AttendanceChart courses={courses} attendance={attendance} />
-              <QuickLinks />
-            </div>
             {/* Right Sidebar Widgets */}
             <div className="space-y-4 md:space-y-6">
               <Deadlines courses={courses} grades={grades} />
               <Schedule courses={courses} />
               <NotificationBoard
                 courses={courses}
->>>>>>> 66ad0c7e130c57ef79d3185326baf1c18479c3e4
                 grades={grades}
                 attendance={attendance}
               />
-<<<<<<< HEAD
-              <Schedule courses={filteredCourses} />
-              <NotificationBoard onNotificationClick={(notification) => toast({ title: notification.title, description: notification.message })} />
-=======
               <ResourceHub />
               <DigiLockerWidget userType="student" />
->>>>>>> 66ad0c7e130c57ef79d3185326baf1c18479c3e4
             </div>
           </div>
         </div>
